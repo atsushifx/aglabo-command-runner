@@ -2,349 +2,212 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Project Overview
+## Core Principles
 
-This is an **OSS Project Starter Template** designed to help quickly launch modern open source projects with best practices and essential tools pre-configured. It focuses on providing a lightweight development environment with Git hooks for security and code quality.
+**Project:** @aglabo/command-runner - Type-safe shell command execution library for Node.js
+**Status:** Early development - infrastructure complete, core implementation pending
 
-## Commit Message Generation System
+### Collaboration Rules
 
-This repository uses an **automated commit message generation system** powered by AI. Understanding this system is critical for working in this codebase.
+1. **Configuration inheritance is sacred** - Always extend from `base/configs/`, never duplicate
+2. **Empty src/ is intentional** - Focus on infrastructure setup before implementation
+3. **Test-type separation** - Unit/functional/integration/e2e have separate configs and caches
+4. **Commit messages are AI-generated** - Never use `git commit -m`, let hooks handle it
+5. **File headers required** - All source files need copyright headers (see Code Style)
 
-### Automatic Generation via Git Hooks
+### Protected Areas
 
-The `prepare-commit-msg` hook automatically generates Conventional Commits format messages when no message is provided:
+- **DO NOT** modify `base/configs/*` without understanding inheritance chain
+- **DO NOT** bypass Git hooks with `--no-verify`
+- **DO NOT** commit to main branch directly (use feature branches)
 
-```bash
-# Hook is triggered automatically by lefthook
-# Configured in: lefthook.yml
-scripts/prepare-commit-msg.sh --to-buffer
+## Technical Context
+
+### Architecture Pattern: Configuration-Driven Design
+
+```
+base/configs/          → Shared base configurations
+  ├── tsconfig.base.json
+  ├── eslint.config.base.js
+  ├── vitest.config.base.ts
+  └── tsup.config.base.ts
+
+configs/               → Project overrides (import from base/)
+  ├── eslint.config.js           // extends base
+  ├── vitest.config.unit.ts      // merges with base
+  ├── vitest.config.functional.ts
+  ├── vitest.config.integration.ts
+  ├── vitest.config.e2e.ts
+  └── tsup.config.esm.ts
 ```
 
-### Manual Generation
+**Key pattern:**
+```javascript
+import baseConfig from '../base/configs/xxx.config.base.js';
+export default [...baseConfig, /* overrides */];
+```
 
-To generate a commit message manually (outputs to stdout):
+### Test Organization Strategy
 
+- **Unit** (`src/**/__tests__/**/*.spec.ts`) - Sequential execution, excludes functional/
+- **Functional** (`src/**/__tests__/functional/**/*`) - Feature-level tests
+- **Integration** (`tests/**/*`) - External systems
+- **E2E** - End-to-end workflows
+
+Each has own cache: `.cache/vitest-cache/{type}/`
+
+### Build Outputs
+
+- `dist/` - TypeScript compiler output
+- `lib/` - CommonJS (base config default)
+- `module/` - ESM (project override)
+
+### Tech Stack
+
+- **Language:** TypeScript 5.9+ (ES2022, strict mode)
+- **Runtime:** Node.js ≥20
+- **Package Manager:** pnpm ≥10
+- **Build:** tsup (bundler)
+- **Test:** Vitest 4.x
+- **Format:** dprint (120 chars, 2 spaces, single quotes, LF)
+- **Lint:** ESLint 9.x flat config
+
+## Development Workflow
+
+### Essential Commands
+
+```bash
+# Setup
+pnpm install && pnpm prepare
+
+# Quality
+pnpm format:dprint           # Format all code
+pnpm check:types             # TypeScript check
+pnpm lint:filenames          # Validate file names
+pnpm lint:secrets            # CRITICAL: Check before commit
+
+# Test (when code exists)
+pnpm exec vitest --config ./configs/vitest.config.unit.ts
+pnpm exec vitest --config ./configs/vitest.config.functional.ts
+
+# Build (when ready)
+pnpm clean
+pnpm exec tsup --config ./configs/tsup.config.esm.ts
+```
+
+### Git Workflow: AI-Powered Commits
+
+**Automatic** (recommended):
+```bash
+git add <files>
+git commit              # Hook auto-generates message
+```
+
+**Manual preview**:
 ```bash
 bash scripts/prepare-commit-msg.sh
+bash scripts/prepare-commit-msg.sh --model claude-sonnet-4-5
 ```
 
-### Commit Message Format (Conventional Commits)
-
-All commit messages follow this **strict format** with character limits enforced by commitlint:
-
-```text
-type(scope): summary                    # ← Header: MAX 72 characters, lowercase start
+**Format enforced by commitlint:**
+```
+type(scope): summary                    # MAX 72 chars, lowercase
 
 - file1.ext:
-  Description of changes                # ← Body lines: MAX 100 characters each
+  Description per file                  # MAX 100 chars/line
 - file2.ext:
-  Description of changes
+  Another description
 ```
 
-**Character Limits (commitlint rules):**
+Types: `feat|fix|chore|docs|test|refactor|perf|ci|config|build|deps`
+Scopes: `config|scripts|docs|test`
 
-- Header line (`type(scope): summary`): **72 characters maximum**
-- Body lines: **100 characters maximum**
-- Subject must start with **lowercase** (not uppercase or PascalCase)
+**Git hooks (lefthook):**
+- Pre-commit: gitleaks + secretlint (parallel)
+- Prepare-commit-msg: AI message generation
+- Commit-msg: commitlint validation
 
-**Commit Types:**
+## Code Style
 
-- `feat`: New feature
-- `fix`: Bug fix
-- `chore`: Routine task, maintenance
-- `docs`: Documentation only
-- `test`: Adding or updating tests
-- `refactor`: Code change without fixing bugs or adding features
-- `perf`: Performance improvement
-- `ci`: CI/CD related changes
-- `config`: Configuration changes
-- `release`: Release-related commits
-- `merge`: Merge commits (especially with conflict resolution)
-- `build`: Build system or external dependencies
-- `style`: Non-functional code style changes (formatting, linting)
-- `deps`: Updating third-party dependencies
+### TypeScript Patterns
 
-**Scope Guidelines:**
+**ESM __dirname:**
+```typescript
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-- Configuration files (`config/`, `*.yaml`, `*.json`): `config`
-- Scripts (`scripts/`, `*.sh`): `scripts`
-- Documentation (`docs/`, `*.md`): `docs`
-- Tests (`__tests__/`, `tests/`): `test`
-
-### AI Model Selection
-
-The commit message generator supports multiple AI models via `--model` option:
-
-```bash
-# OpenAI models (via codex CLI)
-scripts/prepare-commit-msg.sh --model gpt-5
-scripts/prepare-commit-msg.sh --model o1-mini
-
-# Anthropic models (via claude CLI)
-scripts/prepare-commit-msg.sh --model claude-sonnet-4-5
-scripts/prepare-commit-msg.sh --model haiku
-scripts/prepare-commit-msg.sh --model sonnet
-scripts/prepare-commit-msg.sh --model opus
+const __dirname = dirname(fileURLToPath(import.meta.url));
 ```
 
-Default model: `gpt-5`
-
-### Agent Configuration
-
-The commit message generation logic is defined in:
-
-- **Agent file**: `.claude/agents/commit-message-generator.md`
-- **Script implementation**: `scripts/prepare-commit-msg.sh`
-
-The agent analyzes:
-
-1. Last 10 commits (`git log --oneline -10`) for project conventions
-2. Staged changes (`git diff --cached`) for actual modifications
-3. File-by-file changes with detailed descriptions
-
-## Git Hooks and Security
-
-This repository uses **lefthook** to manage Git hooks with parallel execution for performance.
-
-### Pre-commit Hooks (Security Scanning)
-
-Both tools run in parallel to detect secrets before commits:
-
-```bash
-# Gitleaks - detects secrets in staged files
-gitleaks protect --config ./configs/gitleaks.toml --staged
-
-# Secretlint - static analysis for secrets
-secretlint --secretlintrc ./configs/secretlint.config.yaml \
-  --secretlintignore .gitignore --maskSecrets "{staged_files}"
+**File headers (required):**
+```typescript
+// src: <relative-path>
+// @(#) : <description>
+//
+// Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
+//
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
 ```
 
-**Configuration files:**
+### Path Handling (Windows)
 
-- `configs/gitleaks.toml`
-- `configs/secretlint.config.yaml`
-
-### Commit-msg Hook (Message Validation)
-
-Validates commit messages against Conventional Commits format:
-
-```bash
-commitlint --config ./configs/commitlint.config.cjs --edit
+Always use forward slashes or `path.join()`:
+```typescript
+✅ const p = path.join(__dirname, 'configs', 'file.js');
+✅ const p = './configs/file.js';
+❌ const p = '.\\configs\\file.js';
 ```
 
-**Configuration:** `configs/commitlint.config.js` (ES module format, uses `.cjs` extension)
+## Task Completion Checklist
 
-### Hook Configuration
+Before marking task complete:
 
-All hooks are configured in `lefthook.yml`. To install hooks after cloning:
+1. ✅ `pnpm format:dprint`
+2. ✅ `pnpm check:types`
+3. ✅ `pnpm lint:filenames && pnpm lint:secrets`
+4. ✅ Run appropriate vitest config
+5. ✅ Build succeeds (when applicable)
+6. ✅ Commit via hook (not `-m`)
 
-```bash
-lefthook install
-```
+## Documentation
 
-## Development Tools
+### Memory Files (serena-mcp, lsmcp)
 
-Tools are **not bundled** with the repository. Install independently using Scoop (Windows) or package managers:
+- `project_overview.md` - Detailed project info
+- `code_style_conventions.md` - Full style guide
+- `suggested_commands.md` - Complete command reference
+- `task_completion_checklist.md` - Detailed QA process
+- `windows_environment.md` - Windows-specific info
+- `lsmcp_index_info.md` - LSP symbol index status
 
-| Tool       | Purpose                   | Installation                      |
-| ---------- | ------------------------- | --------------------------------- |
-| lefthook   | Git hook manager          | `scoop install lefthook`          |
-| delta      | Visual Git diff viewer    | `scoop install delta`             |
-| commitlint | Commit message linting    | `pnpm install -g @commitlint/cli` |
-| gitleaks   | Secret detection          | `scoop install gitleaks`          |
-| secretlint | Secret static analysis    | `pnpm install -g secretlint`      |
-| cspell     | Spell checker             | `pnpm install -g cspell`          |
-| dprint     | Code formatter (optional) | `scoop install dprint`            |
+### When Adding Source Code
 
-## Working with Claude Code in This Repository
+Once `src/` has TypeScript files:
+1. Create symbol index: `mcp__lsmcp__index_files({ pattern: "src/**/*.ts", root: "..." })`
+2. Verify: `mcp__lsmcp__get_index_stats({ root: "..." })`
+3. Update `lsmcp_index_info` memory
 
-### Creating Commits
+### Plugin Integration
 
-When creating commits in this repository:
+Global plugin (optional): `~/.claude/plugins/marketplaces/claude-idd-framework-marketplace/`
+- Slash commands: `/claude-idd-framework:idd-commit-message`, `/claude-idd-framework:idd-pr`
+- Libraries: filename-utils, idd-session, prereq-check, io-utils
 
-1. **Stage your changes** as usual:
-   ```bash
-   git add <files>
-   ```
+## Starting a Task
 
-2. **Do NOT manually write commit messages**. The prepare-commit-msg hook will auto-generate them:
-   ```bash
-   git commit
-   # Message is automatically generated by scripts/prepare-commit-msg.sh
-   ```
+1. **Read existing patterns** - Check `base/configs/` before creating configs
+2. **Understand test types** - Unit vs functional vs integration placement
+3. **Check memories** - Review serena/lsmcp memories for context
+4. **Plan build outputs** - Know if code goes to dist/, lib/, or module/
+5. **Never skip hooks** - Let git hooks handle validation and messages
 
-3. **Review and edit** the generated message if needed before finalizing the commit.
+## Anti-Patterns to Avoid
 
-### Character Limit Awareness
-
-When generating or suggesting commit messages, always enforce:
-
-- **Header**: 72 characters max
-- **Body lines**: 100 characters max
-- **Subject case**: Start with lowercase
-
-If changes are too complex for these limits, suggest splitting into multiple commits.
-
-### File-by-file Descriptions
-
-Commit messages should describe changes **per file**, not as a generic summary:
-
-**Good:**
-
-```
-feat(scripts): add automatic commit message generation
-
-- scripts/prepare-commit-msg.sh:
-  Implement Codex CLI integration for commit message generation
-- lefthook.yml:
-  Add prepare-commit-msg hook configuration
-```
-
-**Bad:**
-
-```
-feat: add new feature
-
-Added commit message generation functionality
-```
-
-## Repository Structure
-
-```
-.
-├── .claude/              # Local Claude Code configuration (repository-specific)
-│   ├── agents/           # AI agent configurations
-│   │   └── commit-message-generator.md
-│   └── commands/         # Custom Claude Code commands (if any)
-├── configs/              # Tool configurations
-│   ├── commitlint.config.js
-│   ├── gitleaks.toml
-│   └── secretlint.config.yaml
-├── scripts/              # Development scripts
-│   └── prepare-commit-msg.sh  # Commit message generator
-├── temp/                 # Temporary files (gitignored)
-├── .editorconfig         # Editor configuration
-├── .gitignore           # Git ignore patterns
-├── lefthook.yml         # Git hooks configuration
-└── LICENSE              # MIT License
-```
-
-### Claude Code Directory Structure
-
-This repository uses both **local** (repository-specific) and **global** (user-wide) Claude Code configurations:
-
-**Local Configuration** (`.claude/` in repository):
-
-- **Purpose**: Project-specific agents and commands
-- **Location**: `<repository>/.claude/`
-- **Version Control**: Committed to git, shared with all users
-- **Contents**:
-  - `agents/` - Custom AI agent configurations for this project
-  - `commands/` - Project-specific slash commands
-
-**Global Configuration** (`~/.claude/plugins/` in user home):
-
-- **Purpose**: Reusable plugins shared across all projects
-- **Location**: `~/.claude/plugins/marketplaces/`
-- **Version Control**: User-specific, NOT committed to repositories
-- **Contents**:
-  - Plugin packages (e.g., `claude-idd-framework-marketplace/`)
-  - Shared libraries and utilities
-  - Global slash commands
-
-**Plugin Directory Structure:**
-
-```
-~/.claude/
-└── plugins/
-    └── marketplaces/
-        └── claude-idd-framework-marketplace/    # Example plugin
-            ├── .claude/
-            │   ├── agents/                       # Global agents
-            │   └── commands/
-            │       ├── _libs/                    # Shared libraries
-            │       │   ├── filename-utils.lib.sh
-            │       │   ├── idd-session.lib.sh
-            │       │   ├── prereq-check.lib.sh
-            │       │   └── io-utils.lib.sh
-            │       └── *.md                      # Slash commands
-            └── plugin.json                       # Plugin metadata
-```
-
-## Claude Code Plugin Integration
-
-This repository integrates with the **claude-idd-framework** plugin to provide enhanced development workflows.
-
-### Plugin Installation
-
-The claude-idd-framework plugin should be installed in the **global** plugins directory:
-
-```bash
-# Plugin installation location
-~/.claude/plugins/marketplaces/claude-idd-framework-marketplace/
-```
-
-**Note**: This is a user-wide installation. The plugin is NOT included in the repository and must be installed separately by each developer.
-
-### Plugin vs Local Configuration
-
-Understanding the distinction between global plugins and local configurations:
-
-| Aspect           | Global Plugin (`~/.claude/plugins/`) | Local Config (`.claude/`)   |
-| ---------------- | ------------------------------------ | --------------------------- |
-| **Scope**        | All projects for the user            | This repository only        |
-| **Installation** | Installed once per user              | Committed to git            |
-| **Examples**     | claude-idd-framework libraries       | commit-message-generator.md |
-| **Purpose**      | Reusable utilities and commands      | Project-specific agents     |
-| **Sharing**      | User maintains their own copy        | Shared via git repository   |
-
-### Referencing Global Plugin Libraries
-
-Libraries and utilities are referenced from the global plugin directory:
-
-```bash
-# Library path used in scripts
-PLUGIN_DIR="$HOME/.claude/plugins/marketplaces/claude-idd-framework-marketplace"
-FRAMEWORK_LIBS="$PLUGIN_DIR/.claude/commands/_libs"
-```
-
-### Available Libraries
-
-When writing bash scripts for this repository, you can source these shared libraries:
-
-```bash
-# Load libraries from plugin
-PLUGIN_DIR="$HOME/.claude/plugins/marketplaces/claude-idd-framework-marketplace"
-FRAMEWORK_LIBS="$PLUGIN_DIR/.claude/commands/_libs"
-
-source "$FRAMEWORK_LIBS/filename-utils.lib.sh"   # Slug generation, filename utilities
-source "$FRAMEWORK_LIBS/idd-session.lib.sh"      # Session management
-source "$FRAMEWORK_LIBS/prereq-check.lib.sh"     # Prerequisite checking
-source "$FRAMEWORK_LIBS/io-utils.lib.sh"         # I/O utilities (error_print, etc.)
-```
-
-### Key Library Functions
-
-- **filename-utils.lib.sh**: `generate_slug()` - Convert titles to URL-safe slugs
-- **idd-session.lib.sh**: `_load_session()`, `_save_session()` - Session file management
-- **prereq-check.lib.sh**: `validate_git_full()` - Git environment validation
-- **io-utils.lib.sh**: `error_print()` - Standardized error messages
-
-### Plugin Commands
-
-The plugin provides slash commands available in this repository:
-
-- `/claude-idd-framework:\idd\issue:branch` - Git branch management from issues
-- `/claude-idd-framework:idd-commit-message` - Commit message generation
-- `/claude-idd-framework:idd-pr` - Pull request generation
-- Other IDD (Issue-Driven Development) workflow commands
-
-Refer to `~/.claude/plugins/marketplaces/claude-idd-framework-marketplace/.claude/commands/` for full command documentation.
-
-## Important Notes
-
-- **No package.json**: This is a template repository, not a Node.js project. Tools are installed system-wide.
-- **Windows-focused**: Setup scripts and tools are optimized for Windows with Scoop/pnpm.
-- **Template usage**: When creating a new repository from this template, customize the LICENSE file with your GitHub handle.
-- **Hook installation**: After cloning or forking, run `lefthook install` to activate Git hooks.
-- **Plugin dependency**: Some scripts may reference libraries from `~/.claude/plugins/marketplaces/claude-idd-framework-marketplace/`.
+❌ Creating new configs instead of extending base configs
+❌ Writing commit messages manually with `-m`
+❌ Putting tests in wrong directories (check test type)
+❌ Using `\` backslashes in paths
+❌ Skipping file headers in source files
+❌ Committing without running `lint:secrets`
+❌ Over-engineering (this is a library, keep it focused)
