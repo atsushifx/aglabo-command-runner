@@ -1,0 +1,56 @@
+{
+  "name": "@aglabo/command-runner",
+  "_comment": "@(#) : Shell command execution library with TypeScript support and comprehensive error handling",
+  "version": "0.0.1",
+  "description": "Type-safe shell command execution library for Node.js with promise-based API, streaming support, and detailed error handling",
+  "author": "atsushifx <https://github.com/atsushifx>",
+  "license": "MIT",
+  "type": "module",
+  "keywords": [
+    "shell",
+    "command",
+    "exec",
+    "child-process",
+    "typescript",
+    "promise",
+    "async",
+    "subprocess",
+    "execution"
+  ],
+  "packageManager": "pnpm@10.24.0",
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=10"
+  },
+  "devDependencies": {
+    "@commitlint/types": "^20.0.0",
+    "@eslint/js": "^9.39.1",
+    "@ls-lint/ls-lint": "^2.3.1",
+    "@types/node": "^24.10.1",
+    "@typescript-eslint/eslint-plugin": "^8.48.0",
+    "@typescript-eslint/parser": "^8.48.0",
+    "concurrently": "^9.2.1",
+    "eslint": "^9.39.1",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "rimraf": "^6.1.2",
+    "tsup": "^8.5.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.0",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^4.0.14"
+  },
+  "scripts": {
+    "prepare": "lefthook install",
+    "clean": "pnpm rimraf dist",
+    "format:dprint": "dprint fmt",
+    "check:dprint": "dprint check",
+    "check:types": "pnpm -r run check:types",
+    "check:spells": "cspell  --config .vscode/cspell.json --cache --cache-location .cache/cspell/cSpellCache",
+    "lint:filenames": "pnpm exec ls-lint --config ./configs/ls-lint.yaml ",
+    "lint:text": "textlint --config ./configs/textlintrc.yaml --cache --cache-location .cache/textlint-cache/textlintCache ",
+    "lint:markdown": "markdownlint-cli2 --config ./configs/.markdownlint.yaml ",
+    "lint:secrets": "secretlint --secretlintrc ./configs/secretlint.config.yaml --secretlintignore .gitignore --maskSecrets **/*"
+  }
+}
