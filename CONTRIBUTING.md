@@ -69,7 +69,7 @@ We use these tools:
 
 ## 📜 Code of Conduct
 
-All contributors must follow our [Code of Conduct](CODE_OF_CONDUCT.md).
+All contributors must follow our [Code of Conduct](https://github.com/atsushifx/.github/blob/main/.github/CODE_of_CONDUCT.md).
 
 ## 📚 References
 
