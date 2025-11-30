@@ -38,6 +38,9 @@ $~*
 ## AI generated files
 
 ## Coding AI depended
+# SDD (Spec-Driven Development) files
+**/.cc-sdd/
+
 # CLAUDE.md
 .claude/*
 
