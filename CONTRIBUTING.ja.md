@@ -1,8 +1,10 @@
 # 🤝 コントリビューションガイドライン
 
 <!-- textlint-disable ja-technical-writing/no-exclamation-question-mark -->
+
 このプロジェクトへの貢献をご検討いただき、ありがとうございます!
 皆さまのご協力により、よりよいプロジェクトを築いていけることを願っております。
+
 <!-- textlint-enable -->
 
 ## このテンプレートの使用方法
@@ -13,11 +15,11 @@
 ご自身のプロジェクトで使用する際は、以下の手順に従ってカスタマイズしてください。
 
 1. **リポジトリ情報の更新**:
-   - `atsushifx/.github` をご自身のリポジトリ名に置き換えてください。
+   - `atsushifx/aglabo-command-runner` をご自身のリポジトリ名に置き換えてください。
    - リンクやコマンド例など、プロジェクト固有の情報を適切に修正してください。
 
 2. **ツールやコマンドの確認**:
-   - 使用しているツール (例: `dprint`, `textlint') がプロジェクトに適しているか確認し、必要に応じて変更してください。
+   - 使用しているツール (例: `dprint`, `textlint') がプロジェクトに適しているか確認し、開発環境にあわせて変更してください。
 
 3. **行動規範の確認**:
    - `CODE_OF_CONDUCT.ja.md` がプロジェクトに存在することを確認し、リンクが正しく機能するようにしてください。
@@ -33,7 +35,7 @@
 
 ### 1. Issue の報告
 
-- バグ報告や機能提案は、[Issue](https://github.com/atsushifx/.github/issues) にてお願いいたします。
+- バグ報告や機能提案は、[Issue](https://github.com/atsushifx/aglabo-command-runner/issues) にてお願いいたします。
 - 報告の際は、再現手順や期待される動作、実際の動作など、詳細な情報を提供してください。
 
 ### 2. プルリクエストの提出
@@ -51,7 +53,7 @@
 次の手順で、開発環境をセットアップします。
 
 ```bash
-git clone https://github.com/atsushifx/.github.git
+git clone https://github.com/atsushifx/aglabo-command-runner.git
 ```
 
 ### テスト
@@ -83,19 +85,7 @@ git clone https://github.com/atsushifx/.github.git
 
 ## 📬 Issue / Pull Request
 
-- [🐛 バグ報告を作成する](https://github.com/atsushifx/.github/issues/new?template=bug_report.yml)
-- [✨ 機能提案を作成する](https://github.com/atsushifx/.github/issues/new?template=feature_request.yml)
-- [💬 自由トピックを投稿する](https://github.com/atsushifx/.github/issues/new?template=open_topic.yml)
-- [🔀 Pull Request を作成する](https://github.com/atsushifx/.github/compare)
-
----
-
-## 🤖 Powered by
-
-このプロジェクトのドキュメントや運営は、次のチャットボット達に支えられています:
-
-- **Elpha**（エルファ・ノクス）- クールで正確なサポート
-- **Kobeni**（小紅）- 優しく寄り添うアシスト
-- **Tsumugi**（つむぎ）- 明るく元気なフォロー
-
-みんなで、よりよいコントリビューション体験を目指しています✨
+- [バグ報告を作成する](https://github.com/atsushifx/aglabo-command-runner/issues/new?template=bug_report.yml)
+- [機能提案を作成する](https://github.com/atsushifx/aglabo-command-runner/issues/new?template=feature_request.yml)
+- [自由トピックを投稿する](https://github.com/atsushifx/aglabo-command-runner/issues/new?template=open_topic.yml)
+- [Pull Request を作成する](https://github.com/atsushifx/aglabo-command-runner/compare)
