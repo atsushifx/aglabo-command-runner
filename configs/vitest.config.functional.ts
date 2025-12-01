@@ -33,6 +33,7 @@ export default mergeConfig(baseConfig, {
     ],
     exclude: [
       'src/**/__tests__/units/**/*',
+      'src/**/__tests__/runtime/**/*',
       'tests/**/*',
     ],
     cacheDir: path.resolve(__rootDir, '.cache/vitest-cache/functional/'),

@@ -8,11 +8,12 @@
 {
   "extends": "./base/configs/tsconfig.base.json",
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "shared/**/*.ts"
   ],
   "compilerOptions": {
     // directories
-    "rootDir": "./src",
+    "rootDir": ".",
     "outDir": "./dist",
     // aliases
     "paths": {},
