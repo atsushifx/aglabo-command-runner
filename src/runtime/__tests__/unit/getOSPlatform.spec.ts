@@ -9,7 +9,7 @@
 // vitest
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 // type definitions
-import type { AGPlatformResult } from '@shared/types/runtime.types.ts';
+import type { AGPlatformResult } from '@shared/types/platform.types.ts';
 // function to test
 import { getOSPlatform } from '@/runtime/getOSPlatform.ts';
 /**

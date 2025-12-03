@@ -7,7 +7,7 @@
 // https://opensource.org/licenses/MIT
 
 import { detectRuntime } from '@/runtime/detectRuntime.ts';
-import type { AGPlatformResult, AGPlatformType } from '@shared/types/runtime.types.ts';
+import type { AGPlatformResult, AGPlatformType } from '@shared/types/platform.types.ts';
 import { AGRuntimeType } from '@shared/types/runtime.types.ts';
 
 // ============================================================================
