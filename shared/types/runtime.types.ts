@@ -218,6 +218,9 @@ export type AGCommandError = {
   /** Human-readable error message */
   message: string;
 
+  /** Standard output from the command */
+  stdout?: string;
+
   /** Optional standard error output */
   stderr?: string;
 };
