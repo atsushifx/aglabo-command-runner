@@ -10,8 +10,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 // Type definitions
-import type { AGCommandResult } from '@shared/types/runtime.types.ts';
-import { AGCommandErrorType } from '@shared/types/runtime.types.ts';
+import type { AGCommandResult } from '@shared/types/commandRunner.types.ts';
+import { AGCommandErrorType } from '@shared/types/commandRunner.types.ts';
 // Function to test
 // import { runCommand } from '@/runtime/runCommand.ts';
 

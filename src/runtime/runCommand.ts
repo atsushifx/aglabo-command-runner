@@ -10,8 +10,9 @@
 import { spawn } from 'child_process';
 
 // Type definitions
-import type { AGCommandResult } from '@shared/types/runtime.types.ts';
-import { AGCommandErrorType, AGRuntimeType } from '@shared/types/runtime.types.ts';
+import type { AGCommandResult } from '@shared/types/commandRunner.types.ts';
+import { AGCommandErrorType } from '@shared/types/commandRunner.types.ts';
+import { AGRuntimeType } from '@shared/types/runtime.types.ts';
 
 // Runtime detection
 import { detectRuntime } from '@/runtime/detectRuntime.ts';
