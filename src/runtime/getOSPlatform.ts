@@ -7,7 +7,7 @@
 // https://opensource.org/licenses/MIT
 
 import { detectRuntime } from '@/runtime/detectRuntime.ts';
-import type { AGPlatformResult } from '@shared/types/runtime.types.ts';
+import type { AGPlatformResult, AGPlatformType } from '@shared/types/runtime.types.ts';
 import { AGRuntimeType } from '@shared/types/runtime.types.ts';
 
 // ============================================================================
@@ -15,17 +15,47 @@ import { AGRuntimeType } from '@shared/types/runtime.types.ts';
 // ============================================================================
 
 /**
+ * Normalize process.platform to AGPlatformType
+ *
+ * @internal
+ * @param platform - Raw platform string from process.platform
+ * @returns Normalized platform type or undefined
+ *
+ * @remarks
+ * Converts Node.js process.platform values to standard AGPlatformType values:
+ * - 'win32' → 'windows'
+ * - 'darwin' → 'macos'
+ * - 'linux' → 'linux'
+ */
+const _normalizePlatform = (platform: string): AGPlatformType | undefined => {
+  switch (platform) {
+    case 'win32':
+      return 'windows';
+    case 'darwin':
+      return 'macos';
+    case 'linux':
+      return 'linux';
+    default:
+      return undefined;
+  }
+};
+
+/**
  * Get platform from process global (Node.js/Bun)
  *
  * @internal
- * @returns Platform string or undefined
+ * @returns Normalized platform type or undefined
  *
  * @remarks
- * Safely accesses process.platform using optional chaining.
- * Returns undefined if process global doesn't exist or lacks platform property.
+ * Safely accesses process.platform and normalizes it to AGPlatformType.
+ * Returns undefined if process global doesn't exist or platform cannot be normalized.
  */
-const _getPlatformFromProcess = (): string | undefined => {
-  return globalThis.process.platform as string | undefined;
+const _getPlatformFromProcess = (): AGPlatformType | undefined => {
+  const platform = globalThis.process?.platform as string | undefined;
+  if (!platform) {
+    return undefined;
+  }
+  return _normalizePlatform(platform);
 };
 
 // ============================================================================
@@ -35,14 +65,14 @@ const _getPlatformFromProcess = (): string | undefined => {
 /**
  * Detect operating system platform across JavaScript runtimes
  *
- * @returns Platform type string or undefined if detection fails.
- *          Possible values: `'win32'`, `'darwin'`, `'linux'`, or `undefined`.
+ * @returns Normalized platform type or undefined if detection fails.
+ *          Possible values: `'windows'`, `'macos'`, `'linux'`, or `undefined`.
  *
  * @remarks
  * **Detection Strategy**
  *
  * Platform detection varies by JavaScript runtime:
- * - **Node.js/Bun**: Uses `process.platform` API
+ * - **Node.js/Bun**: Uses `process.platform` API and normalizes values
  * - **Deno**: Not yet implemented (returns `undefined`)
  *
  * **Error Handling**
@@ -53,9 +83,9 @@ const _getPlatformFromProcess = (): string | undefined => {
  *
  * **Platform Values**
  *
- * All values follow Node.js `process.platform` conventions:
- * - **`'win32'`** - Windows (both 32-bit and 64-bit systems)
- * - **`'darwin'`** - macOS (Apple Darwin kernel)
+ * All values are normalized to standard platform names:
+ * - **`'windows'`** - Windows (both 32-bit and 64-bit systems)
+ * - **`'macos'`** - macOS (Apple Darwin kernel)
  * - **`'linux'`** - Linux distributions
  *
  * @example
@@ -64,9 +94,9 @@ const _getPlatformFromProcess = (): string | undefined => {
  * import { getOSPlatform } from '@aglabo/command-runner/runtime';
  *
  * const platform = getOSPlatform();
- * if (platform === 'win32') {
+ * if (platform === 'windows') {
  *   console.log('Running on Windows');
- * } else if (platform === 'darwin') {
+ * } else if (platform === 'macos') {
  *   console.log('Running on macOS');
  * } else if (platform === 'linux') {
  *   console.log('Running on Linux');
@@ -79,7 +109,7 @@ const _getPlatformFromProcess = (): string | undefined => {
  * import { getOSPlatform } from '@aglabo/command-runner/runtime';
  *
  * const platform = getOSPlatform();
- * const pathSep = platform === 'win32' ? '\\' : '/';
+ * const pathSep = platform === 'windows' ? '\\' : '/';
  * const configPath = `home${pathSep}user${pathSep}config.json`;
  * // Windows: "home\\user\\config.json"
  * // Unix:    "home/user/config.json"
@@ -104,11 +134,11 @@ const _getPlatformFromProcess = (): string | undefined => {
  * import { getOSPlatform } from '@aglabo/command-runner/runtime';
  *
  * const platform = getOSPlatform();
- * const shellCmd = platform === 'win32' ? 'cmd.exe' : '/bin/sh';
- * const listCmd = platform === 'win32' ? 'dir' : 'ls -la';
+ * const shellCmd = platform === 'windows' ? 'cmd.exe' : '/bin/sh';
+ * const listCmd = platform === 'windows' ? 'dir' : 'ls -la';
  * ```
  */
-export const getOSPlatform = (): AGPlatformResult => {
+export const getOSPlatform = (_testPlatform?: string): AGPlatformResult => {
   const runtime = detectRuntime();
 
   // Handle each runtime's platform API

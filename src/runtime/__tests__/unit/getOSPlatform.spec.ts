@@ -68,7 +68,7 @@ describe('getOSPlatform', () => {
       const result: AGPlatformResult = getOSPlatform();
 
       // Then: Returns process.platform (same as Node)
-      expect(result).toBe('darwin');
+      expect(result).toBe('macos');
     });
   });
 
@@ -122,8 +122,8 @@ describe('getOSPlatform', () => {
       const platform = getOSPlatform();
 
       // Then: Example code works correctly
-      if (platform === 'win32') {
-        expect(platform).toBe('win32');
+      if (platform === 'windows') {
+        expect(platform).toBe('windows');
       }
     });
 
@@ -136,7 +136,7 @@ describe('getOSPlatform', () => {
 
       // When: Use cross-platform path example from JSDoc
       const platform = getOSPlatform();
-      const pathSep = platform === 'win32' ? '\\' : '/';
+      const pathSep = platform === 'windows' ? '\\' : '/';
 
       // Then: Example works correctly
       expect(pathSep).toBe('\\');

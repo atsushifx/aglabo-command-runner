@@ -10,8 +10,10 @@
 import { describe, expect, it } from 'vitest';
 
 // Type definitions
-import type { AGCommandError, AGCommandResult, AGRuntimeResult } from '@shared/types/runtime.types.ts';
-import { AGCommandErrorType, AGRuntimeType } from '@shared/types/runtime.types.ts';
+import type { AGCommandError, AGCommandResult } from '@shared/types/commandRunner.types.ts';
+import { AGCommandErrorType } from '@shared/types/commandRunner.types.ts';
+import type { AGRuntimeResult } from '@shared/types/runtime.types.ts';
+import { AGRuntimeType } from '@shared/types/runtime.types.ts';
 
 // Test cases
 /**
