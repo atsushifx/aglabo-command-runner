@@ -7,9 +7,9 @@
 // https://opensource.org/licenses/MIT
 
 // libs
+import process from 'node:process';
 import { dirname } from 'path';
 import path from 'path';
-import process from 'node:process';
 import { fileURLToPath } from 'url';
 
 // types
