@@ -16,6 +16,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
+    passWithNoTests: true, // set no test is not failure
     include: [
       // NOTE: DO NOT ENABLE THESE HERE unless you want ALL tests to run in every subpackage.
       // Recommended: define test.include in each sub-package's vitest.config.*

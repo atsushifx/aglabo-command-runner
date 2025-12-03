@@ -13,10 +13,21 @@
   ],
   "compilerOptions": {
     // directories
+    "baseUrl": "./",
     "rootDir": ".",
     "outDir": "./dist",
     // aliases
-    "paths": {},
+    "paths": {
+      "@shared/*": [
+        "shared/*"
+      ],
+      "@/*": [
+        "src/*"
+      ],
+      "@runtime/*": [
+        "src/runtime/*"
+      ]
+    },
     // types
     // cache
     "incremental": true,

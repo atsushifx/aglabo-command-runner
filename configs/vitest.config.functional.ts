@@ -20,7 +20,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 import { mergeConfig } from 'vitest/config';
 
 // shared base config
-import baseConfig from '../base/configs/vitest.config.base';
+import baseConfig from '../base/configs/vitest.config.base.ts';
 
 // config
 export default mergeConfig(baseConfig, {

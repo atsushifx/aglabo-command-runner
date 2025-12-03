@@ -57,7 +57,10 @@
       "DOM"
     ],
     "types": [
-      "node"
-    ]
+      "node",
+      "bun"
+    ],
+    // baseURLを許可
+    "ignoreDeprecations": "6.0"
   }
 }
