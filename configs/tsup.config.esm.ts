@@ -10,7 +10,7 @@
 import { defineConfig } from 'tsup';
 
 // user config
-import { baseConfig } from '../base/configs/tsup.config.base';
+import { baseConfig, createAliasRewritePlugin } from '../base/configs/tsup.config.base.ts';
 
 // configs
 export default defineConfig({
@@ -28,4 +28,12 @@ export default defineConfig({
   tsconfig: './tsconfig.json',
   // DTS with incremental build for ESM
   dts: true,
+  // esbuild plugins
+  esbuildPlugins: [
+    // alias rewrite plugin
+    createAliasRewritePlugin({
+      '@shared': './shared',
+      '@runtime': './src/runtime',
+    }),
+  ],
 });

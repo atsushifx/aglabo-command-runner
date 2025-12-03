@@ -1,213 +1,132 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## コア原則
 
-## Core Principles
+### プロジェクト状態
 
-**Project:** @aglabo/command-runner - Type-safe shell command execution library for Node.js
-**Status:** Early development - infrastructure complete, core implementation pending
+- TypeScriptライブラリ用テンプレートプロジェクト
+- `src/`ディレクトリ未作成（実装コードなし）
+- テンプレート段階 - 設定/ドキュメント/スクリプトに注力
 
-### Collaboration Rules
+### AI協働ルール
 
-1. **Configuration inheritance is sacred** - Always extend from `base/configs/`, never duplicate
-2. **Empty src/ is intentional** - Focus on infrastructure setup before implementation
-3. **Test-type separation** - Unit/functional/integration/e2e have separate configs and caches
-4. **Commit messages are AI-generated** - Never use `git commit -m`, let hooks handle it
-5. **File headers required** - All source files need copyright headers (see Code Style)
+- **コミットメッセージ**: 自動生成必須（手動作成禁止）
+- **メモリー活用**: serena-mcpの5つのメモリーを優先参照
+- **ドキュメント優先**: 詳細は `docs/` 配下を参照
+- **品質ゲート**: コミット前に自動実行（手動も可）
 
-### Protected Areas
+### 絶対禁止事項
 
-- **DO NOT** modify `base/configs/*` without understanding inheritance chain
-- **DO NOT** bypass Git hooks with `--no-verify`
-- **DO NOT** commit to main branch directly (use feature branches)
+- 手動でのコミットメッセージ作成
+- CRLF改行の使用（LF必須）
+- シークレット情報のコミット
+- dprint/ESLintで自動化可能な手動修正
 
-## Technical Context
+## 技術コンテキスト
 
-### Architecture Pattern: Configuration-Driven Design
+### スタック
 
-```
-base/configs/          → Shared base configurations
-  ├── tsconfig.base.json
-  ├── eslint.config.base.js
-  ├── vitest.config.base.ts
-  └── tsup.config.base.ts
+- TypeScript 5.9+ (ES2022, strict)
+- Node.js >= 20, pnpm >= 10.24.0
+- Build: tsup, Test: Vitest 4.x
+- Lint: ESLint 9.x, textlint, markdownlint
+- Format: dprint (120文字, 2スペース, LF)
+- Security: gitleaks, secretlint
 
-configs/               → Project overrides (import from base/)
-  ├── eslint.config.js           // extends base
-  ├── vitest.config.unit.ts      // merges with base
-  ├── vitest.config.functional.ts
-  ├── vitest.config.integration.ts
-  ├── vitest.config.e2e.ts
-  └── tsup.config.esm.ts
-```
+### 必須コマンド
 
-**Key pattern:**
-```javascript
-import baseConfig from '../base/configs/xxx.config.base.js';
-export default [...baseConfig, /* overrides */];
-```
+コミットワークフロー:
 
-### Test Organization Strategy
-
-- **Unit** (`src/**/__tests__/**/*.spec.ts`) - Sequential execution, excludes functional/
-- **Functional** (`src/**/__tests__/functional/**/*`) - Feature-level tests
-- **Integration** (`tests/**/*`) - External systems
-- **E2E** - End-to-end workflows
-
-Each has own cache: `.cache/vitest-cache/{type}/`
-
-### Build Outputs
-
-- `dist/` - TypeScript compiler output
-- `lib/` - CommonJS (base config default)
-- `module/` - ESM (project override)
-
-### Tech Stack
-
-- **Language:** TypeScript 5.9+ (ES2022, strict mode)
-- **Runtime:** Node.js ≥20
-- **Package Manager:** pnpm ≥10
-- **Build:** tsup (bundler)
-- **Test:** Vitest 4.x
-- **Format:** dprint (120 chars, 2 spaces, single quotes, LF)
-- **Lint:** ESLint 9.x flat config
-
-## Development Workflow
-
-### Essential Commands
-
-```bash
-# Setup
-pnpm install && pnpm prepare
-
-# Quality
-pnpm format:dprint           # Format all code
-pnpm check:types             # TypeScript check
-pnpm lint:filenames          # Validate file names
-pnpm lint:secrets            # CRITICAL: Check before commit
-
-# Test (when code exists)
-pnpm exec vitest --config ./configs/vitest.config.unit.ts
-pnpm exec vitest --config ./configs/vitest.config.functional.ts
-
-# Build (when ready)
-pnpm clean
-pnpm exec tsup --config ./configs/tsup.config.esm.ts
-```
-
-### Git Workflow: AI-Powered Commits
-
-**Automatic** (recommended):
 ```bash
 git add <files>
-git commit              # Hook auto-generates message
+git commit              # 自動メッセージ生成
 ```
 
-**Manual preview**:
+品質チェック（コミット前推奨）:
+
 ```bash
-bash scripts/prepare-commit-msg.sh
-bash scripts/prepare-commit-msg.sh --model claude-sonnet-4-5
+pnpm format:dprint      # コード整形
+pnpm lint:filenames     # ファイル名
+pnpm lint:text          # テキスト
+pnpm lint:markdown      # Markdown
+pnpm lint:secrets       # シークレットスキャン（重要）
+pnpm check:spells       # スペルチェック
+pnpm check:types        # 型チェック（src/作成後）
 ```
 
-**Format enforced by commitlint:**
-```
-type(scope): summary                    # MAX 72 chars, lowercase
+### プロジェクト構造
 
-- file1.ext:
-  Description per file                  # MAX 100 chars/line
-- file2.ext:
-  Another description
-```
-
-Types: `feat|fix|chore|docs|test|refactor|perf|ci|config|build|deps`
-Scopes: `config|scripts|docs|test`
-
-**Git hooks (lefthook):**
-- Pre-commit: gitleaks + secretlint (parallel)
-- Prepare-commit-msg: AI message generation
-- Commit-msg: commitlint validation
-
-## Code Style
-
-### TypeScript Patterns
-
-**ESM __dirname:**
-```typescript
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
+```text
+.
+├── src/                    # 未作成（実装予定）
+├── configs/                # プロジェクト固有設定
+├── base/configs/           # ベース設定（継承用）
+├── scripts/                # 開発スクリプト
+│   └── prepare-commit-msg.sh
+├── docs/
+│   ├── dev-standards/      # 開発標準
+│   └── projects/           # プロジェクト固有ドキュメント
+├── lefthook.yml            # Git hooks設定
+└── package.json
 ```
 
-**File headers (required):**
-```typescript
-// src: <relative-path>
-// @(#) : <description>
-//
-// Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
-//
-// This software is released under the MIT License.
-// https://opensource.org/licenses/MIT
-```
+### Git Hooks（自動実行）
 
-### Path Handling (Windows)
+1. pre-commit: gitleaks, secretlint（並列）
+2. prepare-commit-msg: AIコミットメッセージ生成
+3. commit-msg: commitlint（形式検証）
 
-Always use forward slashes or `path.join()`:
-```typescript
-✅ const p = path.join(__dirname, 'configs', 'file.js');
-✅ const p = './configs/file.js';
-❌ const p = '.\\configs\\file.js';
-```
+### テンプレート固有の注意
 
-## Task Completion Checklist
+- `check:types` は src/ 作成後に有効
+- シンボル検索は src/ 作成後に有効
+- build/test コマンドは package.json に追加が必要
 
-Before marking task complete:
+## ドキュメント参照
 
-1. ✅ `pnpm format:dprint`
-2. ✅ `pnpm check:types`
-3. ✅ `pnpm lint:filenames && pnpm lint:secrets`
-4. ✅ Run appropriate vitest config
-5. ✅ Build succeeds (when applicable)
-6. ✅ Commit via hook (not `-m`)
+### serena-mcp メモリー
 
-## Documentation
+詳細情報が格納されたメモリー（優先参照）:
 
-### Memory Files (serena-mcp, lsmcp)
+- `project_overview` - プロジェクト全体概要
+- `code_style_conventions` - コーディング規約
+- `suggested_commands` - 推奨コマンド集
+- `task_completion_checklist` - タスク完了チェックリスト
+- `windows_environment` - Windows環境情報
 
-- `project_overview.md` - Detailed project info
-- `code_style_conventions.md` - Full style guide
-- `suggested_commands.md` - Complete command reference
-- `task_completion_checklist.md` - Detailed QA process
-- `windows_environment.md` - Windows-specific info
-- `lsmcp_index_info.md` - LSP symbol index status
+### 開発標準（docs/dev-standards/）
 
-### When Adding Source Code
+- `01-onboarding.md` - 新規参加者向けセットアップ
+- `02-development-workflow.md` - 開発ワークフロー
+- `03-commit-message-conventions.md` - コミットメッセージ規約
+- `04-quality-assurance.md` - 品質保証とゲート
+- `05-coding-conventions.md` - コーディング規約
+- `06-ai-assisted-development.md` - AI支援開発
 
-Once `src/` has TypeScript files:
-1. Create symbol index: `mcp__lsmcp__index_files({ pattern: "src/**/*.ts", root: "..." })`
-2. Verify: `mcp__lsmcp__get_index_stats({ root: "..." })`
-3. Update `lsmcp_index_info` memory
+### プロジェクト固有（docs/projects/）
 
-### Plugin Integration
+- `commit_message_system.md` - コミットメッセージ生成の実装
+- `git_hooks.md` - Git hooks設定詳細
+- `mcp_servers.md` - MCPサーバー統合
+- `development_tools.md` - ツールインストール
+- `repository_structure.md` - リポジトリ構造詳細
+- `plugin_integration.md` - Claude Codeプラグイン
+- `using_template.md` - テンプレート初期化手順
 
-Global plugin (optional): `~/.claude/plugins/marketplaces/claude-idd-framework-marketplace/`
-- Slash commands: `/claude-idd-framework:idd-commit-message`, `/claude-idd-framework:idd-pr`
-- Libraries: filename-utils, idd-session, prereq-check, io-utils
+### MCP サーバー
 
-## Starting a Task
+- **serena-mcp**: セマンティックコード操作
+  - シンボル検索・編集（src/作成後）
+  - 上記5つのメモリー管理
+- **lsmcp**: LSPベースIDE機能
+  - 定義ジャンプ、ホバー、診断
+  - 設定ファイルで現在利用可能
 
-1. **Read existing patterns** - Check `base/configs/` before creating configs
-2. **Understand test types** - Unit vs functional vs integration placement
-3. **Check memories** - Review serena/lsmcp memories for context
-4. **Plan build outputs** - Know if code goes to dist/, lib/, or module/
-5. **Never skip hooks** - Let git hooks handle validation and messages
+詳細: `docs/projects/mcp_servers.md`
 
-## Anti-Patterns to Avoid
+## 重要な環境設定
 
-❌ Creating new configs instead of extending base configs
-❌ Writing commit messages manually with `-m`
-❌ Putting tests in wrong directories (check test type)
-❌ Using `\` backslashes in paths
-❌ Skipping file headers in source files
-❌ Committing without running `lint:secrets`
-❌ Over-engineering (this is a library, keep it focused)
+- **改行**: LF (Unix-style) 必須
+- **エンコーディング**: UTF-8 必須
+- **プラットフォーム**: Windows最適化（クロスプラットフォーム対応）
+- **初回セットアップ**: `pnpm install && pnpm prepare`
