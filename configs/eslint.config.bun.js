@@ -22,23 +22,17 @@ import baseConfig from '../base/configs/eslint.config.base.js';
 
 // settings
 export default [
-  {
-    // ignore code for Deno
-    ignores: [
-      'src/**/deno/**',
-      'src/**/bun/**',
-    ],
-  },
   ...baseConfig,
 
   // source code settings
   {
     files: [
-      'src/**/*.ts',
-      'shared/**/*.ts',
-      'tests/**/*.ts',
+      'src/**/bun/*.ts',
     ],
     languageOptions: {
+      globals: {
+        Bun: 'readonly',
+      },
       parserOptions: {
         tsconfigRootDir: __rootDir,
       },
