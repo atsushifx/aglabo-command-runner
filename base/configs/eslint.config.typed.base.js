@@ -7,6 +7,8 @@
 // https://opensource.org/licenses/MIT
 
 // -- import
+// node
+import process from 'node:process';
 // plugins
 import tseslint from '@typescript-eslint/eslint-plugin';
 // parser

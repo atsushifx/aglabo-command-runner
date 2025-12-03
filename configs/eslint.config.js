@@ -22,6 +22,12 @@ import baseConfig from '../base/configs/eslint.config.base.js';
 
 // settings
 export default [
+  {
+    // ignore code for Deno
+    ignores: [
+      'src/**/deno/**',
+    ],
+  },
   ...baseConfig,
 
   // source code settings

@@ -8,14 +8,26 @@
 {
   "extends": "./base/configs/tsconfig.base.json",
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "shared/**/*.ts"
   ],
   "compilerOptions": {
     // directories
-    "rootDir": "./src",
+    "baseUrl": "./",
+    "rootDir": ".",
     "outDir": "./dist",
     // aliases
-    "paths": {},
+    "paths": {
+      "@shared/*": [
+        "shared/*"
+      ],
+      "@/*": [
+        "src/*"
+      ],
+      "@runtime/*": [
+        "src/runtime/*"
+      ]
+    },
     // types
     // cache
     "incremental": true,
