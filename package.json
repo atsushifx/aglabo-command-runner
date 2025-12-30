@@ -6,6 +6,11 @@
   "author": "atsushifx <https://github.com/atsushifx>",
   "license": "MIT",
   "type": "module",
+  "imports": {
+    "#/*": "./src/*",
+    "#shared/*": "./shared/*",
+    "#runtime/*": "./src/runtime/*"
+  },
   "keywords": [
     "shell",
     "command",
@@ -57,14 +62,15 @@
     "lint:filenames": "pnpm exec ls-lint --config ./configs/ls-lint.yaml ",
     "lint:text": "textlint --config ./configs/textlintrc.yaml --cache --cache-location .cache/textlint-cache/textlintCache ",
     "lint:markdown": "markdownlint-cli2 --config ./configs/.markdownlint.yaml ",
+    "test:all": "concurrently \"pnpm run test:develop\" \"pnpm run test:functional\" \"pnpm run test:ci\" \"pnpm run test:e2e\" \"pnpm run test:runtime\" ",
     "test:develop": "pnpm exec vitest run --config ./configs/vitest.config.unit.ts",
     "test:functional": "pnpm exec vitest run --config ./configs/vitest.config.functional.ts",
     "test:ci": "pnpm exec vitest run --config ./configs/vitest.config.integration.ts",
     "test:e2e": "pnpm exec vitest run --config ./configs/vitest.config.e2e.ts",
     "test:runtime": "concurrently \"pnpm run test:runtime:node\" \"pnpm run test:runtime:deno\" \"pnpm run test:runtime:bun\" ",
     "test:runtime:node": "pnpm exec vitest run --config ./configs/vitest.config.runtime.ts ",
-    "test:runtime:deno": "deno test src/**/__tests__/runtime/deno/*.spec.ts",
-    "test:runtime:bun": "bun test ./src/__tests__/runtime/bun/",
+    "test:runtime:deno": "deno test tests/runtime/deno/*.spec.ts",
+    "test:runtime:bun": "bun test tests/runtime/bun/",
     "lint:secrets": "secretlint --secretlintrc ./configs/secretlint.config.yaml --secretlintignore .gitignore --maskSecrets **/*"
   }
 }

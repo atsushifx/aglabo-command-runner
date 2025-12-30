@@ -42,11 +42,7 @@ $~*
 **/.cc-sdd/
 
 # claude code setting
-.claude/*
-
-# agents can tracking
-!.claude/agents/
-!.claude/agents/**
+.claude/**
 
 # MCP server dependency files
 .serena/
