@@ -78,9 +78,9 @@ task_count: 568
 
 ### T01-08: Create shared/types/os2shell.types.ts File (3 tasks)
 
-- [ ] **T01-08-01** Given: creating os2shell-specific types / When: creating os2shell.types.ts / Then: file created at shared/types/os2shell.types.ts
-- [ ] **T01-08-02** Given: file created / When: checking module structure / Then: includes proper TypeScript syntax, ES6 exports, and necessary imports from runtime.types.ts
-- [ ] **T01-08-03** Given: file ready / When: preparing for definitions / Then: includes section comments for enums and constants with JSDoc placeholders
+- [x] **T01-08-01** Given: creating os2shell-specific types / When: creating os2shell.types.ts / Then: file created at shared/types/os2shell.types.ts
+- [x] **T01-08-02** Given: file created / When: checking module structure / Then: includes proper TypeScript syntax, ES6 exports, and necessary imports from runtime.types.ts
+- [x] **T01-08-03** Given: file ready / When: preparing for definitions / Then: includes section comments for enums and constants with JSDoc placeholders
 
 ### T01-09: Define AGTOSType Enum in os2shell.types.ts (5 tasks)
 

@@ -7,8 +7,9 @@
 // https://opensource.org/licenses/MIT
 
 // Type definitions
-import type { AGRuntimeResult } from '@shared/types/runtime.types.ts';
-import { AGRuntimeType } from '@shared/types/runtime.types.ts';
+import type { AGRuntimeResult } from '#shared/types/runtime.types.ts';
+// Constants
+import { AGRuntimeType } from '#shared/types/runtime.types.ts';
 
 // ============================================================================
 // Global Type Extensions

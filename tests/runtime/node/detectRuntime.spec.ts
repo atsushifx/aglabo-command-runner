@@ -10,10 +10,10 @@
 import { describe, expect, it } from 'vitest';
 
 // Type definitions
-import { AGRuntimeType } from '../../../../shared/types/runtime.types.ts';
+import { AGRuntimeType } from '#shared/types/runtime.types.ts';
 
 // Runtime detection function
-import { detectRuntime } from '../../../runtime/detectRuntime.ts';
+import { detectRuntime } from '#/runtime/detectRuntime.ts';
 
 /**
  * Node.js Runtime Detection Tests

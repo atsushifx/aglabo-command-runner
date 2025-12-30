@@ -6,9 +6,12 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { detectRuntime } from '@/runtime/detectRuntime.ts';
-import type { AGPlatformResult } from '@shared/types/runtime.types.ts';
-import { AGRuntimeType } from '@shared/types/runtime.types.ts';
+// type
+import type { AGPlatformResult } from '#shared/types/runtime.types.ts';
+
+// function
+import { detectRuntime } from '#runtime/detectRuntime.ts';
+import { AGRuntimeType } from '#shared/types/runtime.types.ts';
 
 // ============================================================================
 // Internal Helper Functions

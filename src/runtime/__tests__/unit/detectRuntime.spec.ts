@@ -10,11 +10,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 // Type definitions
-import type { AGRuntimeResult } from '@shared/types/runtime.types.ts';
-import { AGRuntimeType } from '@shared/types/runtime.types.ts';
+import type { AGRuntimeResult } from '#shared/types/runtime.types.ts';
+import { AGRuntimeType } from '#shared/types/runtime.types.ts';
 
 // Runtime detection function
-import { detectRuntime } from '@/runtime/detectRuntime.ts';
+import { detectRuntime } from '#runtime/detectRuntime.ts';
 
 // Test cases
 /**
