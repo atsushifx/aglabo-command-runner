@@ -48,9 +48,154 @@ The `os2shell` module operates at a **platform abstraction layer** that decouple
 
 ---
 
-## 3. Virtual OS Platform Abstraction
+## 3. Basic Architecture Flow
 
-### 3.1 Virtual OS Platform Definition
+### 3.1 Overview
+
+The os2shell module implements a unified three-stage pipeline for platform detection and shell resolution:
+
+```bash
+┌─────────────────────────────────────────┐
+│ Stage 1: Raw OS Detection               │
+│ ─────────────────────────────────────── │
+│ Obtain raw OS platform from runtime     │
+│ (e.g., 'win32', 'darwin', 'linux')     │
+└─────────────────────────────────────────┘
+              ↓
+┌─────────────────────────────────────────┐
+│ Stage 2: Raw OS → Virtual OS Conversion │
+│ ─────────────────────────────────────── │
+│ Map raw OS to virtual OS platform       │
+│ (e.g., 'win32' → Windows)              │
+└─────────────────────────────────────────┘
+              ↓
+┌─────────────────────────────────────────┐
+│ Stage 3: Virtual OS → Shell Resolution  │
+│ ─────────────────────────────────────── │
+│ Resolve shell command for OS            │
+│ (e.g., Windows → 'pwsh.exe')           │
+└─────────────────────────────────────────┘
+              ↓
+         Final Result
+     (Shell command or undefined)
+```
+
+### 3.2 Stage-by-Stage Description
+
+#### Stage 1: Raw OS Detection
+
+- Detects the raw platform value from the current runtime environment
+- Different runtimes (Node.js, Deno, Bun) may use different naming conventions
+- Returns raw OS value (e.g., `'win32'`, `'darwin'`, `'linux'`) or `undefined` if unsupported
+
+#### Stage 2: Raw OS → Virtual OS Conversion
+
+- Normalizes raw OS values to a canonical virtual OS platform representation
+- Maps runtime-specific platform values to abstract OS concepts (Windows, macOS, Linux)
+- Returns corresponding virtual OS platform or `undefined` if raw OS is unsupported
+- This conversion happens at the boundary, decoupling the module from runtime-specific details
+
+#### Stage 3: Virtual OS → Shell Resolution
+
+- Looks up the primary shell command for the detected virtual OS platform
+- Shell selection is defined once per virtual OS, not per runtime
+- Returns shell command string or `undefined` if platform has no mapping
+
+### 3.3 Example Flow
+
+#### Scenario: Resolve shell for current platform on Windows
+
+```text
+Windows runtime environment
+    ↓
+[Stage 1] Detect raw OS → 'win32'
+    ↓
+[Stage 2] Convert raw OS → Virtual OS (Windows)
+    ↓
+[Stage 3] Resolve shell → 'pwsh.exe'
+    ↓
+    Return: 'pwsh.exe'
+```
+
+#### Scenario: Unsupported platform
+
+```text
+Unsupported runtime environment
+    ↓
+[Stage 1] Detect raw OS → undefined
+    ↓
+[Stage 2] Convert raw OS → undefined (no mapping)
+    ↓
+[Stage 3] Return undefined
+    ↓
+    Return: undefined
+```
+
+---
+
+## 4. Stage 1 & 2: Raw OS Detection and Virtual OS Conversion
+
+### 4.1 Raw OS Detection from Runtime
+
+The first stage detects the raw platform value from the runtime environment.
+
+**Detection Method:**
+
+The module obtains the raw OS platform value using runtime-specific mechanisms:
+
+- Node.js: `process.platform` (e.g., `'win32'`, `'darwin'`, `'linux'` and others)
+- Deno: `Deno.build.os` (similar convention)
+- Bun: `process.platform` (Node.js compatible)
+
+**Raw OS Values:**
+
+The raw platform values are runtime-specific identifiers. Different runtimes may use different naming conventions for the same operating system.
+
+**Output:**
+
+- Returns the raw platform string from the runtime environment
+- Returns `undefined` if the platform cannot be detected
+
+### 4.2 Raw OS to Virtual OS Conversion (Internal Mapping)
+
+The second stage normalizes raw OS values to a canonical virtual OS platform representation using an internal mapping table.
+
+**Mapping Principle:**
+
+- The module maintains an **internal mapping table** that converts raw OS values to virtual OS platforms
+- Only explicitly mapped raw OS values are converted to a virtual OS platform
+- **Raw OS values that have NO entry in the mapping table are DISCARDED (dropped) and return `undefined`**
+- This design ensures that unsupported platforms cannot accidentally pass through the conversion stage
+
+**Node.js Platform Mapping (Example):**
+
+| Raw OS Value (`process.platform`) | Virtual OS Platform | Status      |
+| --------------------------------- | ------------------- | ----------- |
+| `win32`                           | `Windows`           | ✓ Mapped    |
+| `darwin`                          | `macOS`             | ✓ Mapped    |
+| `linux`                           | `Linux`             | ✓ Mapped    |
+| `aix`                             | *(NOT in table)*    | ✗ Discarded |
+| `freebsd`                         | *(NOT in table)*    | ✗ Discarded |
+| (any other value)                 | *(NOT in table)*    | ✗ Discarded |
+
+**Discarding Behavior:**
+
+- Any raw OS value that does not have an explicit entry in the mapping table is **not assigned a virtual OS platform**
+- Instead, the function returns `undefined`, signaling that the platform is unsupported
+- This prevents silent failures or implicit assumptions about unmapped platforms
+
+**Processing Logic:**
+
+1. Obtain the raw OS value from Stage 1 (Raw OS Detection)
+2. Look up the raw OS value in the internal mapping table
+3. If found: Return the corresponding virtual OS platform
+4. If NOT found: **Return `undefined` (discard the platform)**
+
+---
+
+## 5. Virtual OS Platform Abstraction
+
+### 5.1 Virtual OS Platform Definition
 
 A **Virtual OS Platform** is a canonical representation of an operating system, independent of any runtime's naming conventions.
 
@@ -64,26 +209,11 @@ A **Virtual OS Platform** is a canonical representation of an operating system, 
 
 **Scope:** This specification defines behavior only for these three virtual OS platforms. All other operating systems result in `undefined` behavior from the module.
 
-### 3.2 Runtime Platform to Virtual OS Platform Mapping
-
-The module MUST normalize runtime-specific platform detection to virtual OS platforms at the boundary.
-
-**Node.js Platform Mapping:**
-
-| Node.js `process.platform` | Virtual OS Platform | Support |
-| -------------------------- | ------------------- | ------- |
-| `win32`                    | `Windows`           | Yes     |
-| `darwin`                   | `macOS`             | Yes     |
-| `linux`                    | `Linux`             | Yes     |
-| (all others)               | (undefined)         | No      |
-
-**Mapping Rule:** If the runtime platform does not have an entry in this table, platform detection returns `undefined`.
-
 ---
 
-## 4. Shell Mapping Specification
+## 6. Stage 3: Virtual OS to Shell Resolution
 
-### 4.1 Virtual OS Platform to Shell Mapping
+### 6.1 Virtual OS Platform to Shell Mapping
 
 The module maintains a deterministic mapping from virtual OS platform to a primary shell command.
 
@@ -103,9 +233,9 @@ The module maintains a deterministic mapping from virtual OS platform to a prima
 
 ---
 
-## 5. OS Detection Specification
+## 7. OS Detection Specification
 
-### 5.1 OS Detection Behavior
+### 7.1 OS Detection Behavior
 
 **Operation:** Detect the current operating system at runtime and normalize to virtual OS platform.
 
@@ -131,9 +261,9 @@ The module maintains a deterministic mapping from virtual OS platform to a prima
 
 ---
 
-## 6. Shell Resolution Specification
+## 8. Shell Resolution Specification
 
-### 6.1 Shell Resolution Behavior
+### 8.1 Shell Resolution Behavior
 
 **Operation:** Retrieve the shell command/path for the currently running operating system.
 
@@ -158,7 +288,7 @@ The module maintains a deterministic mapping from virtual OS platform to a prima
 |    1 | OS not detected or unsupported | Return `undefined`   |
 |    2 | OS detected and shell mapped   | Return shell command |
 
-### 6.2 No Implicit Fallback Behavior
+### 8.2 No Implicit Fallback Behavior
 
 The module MUST NOT:
 
@@ -171,7 +301,7 @@ The module MUST NOT:
 
 ---
 
-## 7. Edge Cases
+## 9. Edge Cases
 
 | Scenario                     | Input/Condition                    | Expected Behavior         |
 | ---------------------------- | ---------------------------------- | ------------------------- |
@@ -183,22 +313,22 @@ The module MUST NOT:
 
 ---
 
-## 8. Requirements Traceability
+## 10. Requirements Traceability
 
-| Requirement ID                    | Covered By                                     |
-| --------------------------------- | ---------------------------------------------- |
-| FR1 (Virtual OS Abstraction)      | Section 3: Virtual OS Platform Abstraction     |
-| FR2 (Virtual OS → Shell Mapping)  | Section 4: Shell Mapping Specification         |
-| FR3 (OS Detection)                | Section 5: OS Detection Specification          |
-| FR4 (Shell Resolution)            | Section 6: Shell Resolution Specification      |
-| Non-FR1 (Reliability)             | Section 6.2: No Implicit Fallback Behavior     |
-| Non-FR2 (Maintainability)         | Section 4: Centralized mapping table           |
-| Non-FR3 (Performance)             | Section 5.1: Minimal detection overhead        |
-| Critical Constraint (No Fallback) | Section 6.2: Explicit constraint and rationale |
+| Requirement ID                    | Covered By                                                                                                                              |
+| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| FR1 (Virtual OS Abstraction)      | Section 3: Basic Architecture Flow + Section 4: Raw OS Detection and Virtual OS Conversion + Section 5: Virtual OS Platform Abstraction |
+| FR2 (Virtual OS → Shell Mapping)  | Section 6: Stage 3 - Virtual OS to Shell Resolution                                                                                     |
+| FR3 (OS Detection)                | Section 4: Stage 1 & 2 + Section 7: OS Detection Specification                                                                          |
+| FR4 (Shell Resolution)            | Section 8: Shell Resolution Specification                                                                                               |
+| Non-FR1 (Reliability)             | Section 8.2: No Implicit Fallback Behavior                                                                                              |
+| Non-FR2 (Maintainability)         | Section 6.1: Virtual OS Platform to Shell Mapping                                                                                       |
+| Non-FR3 (Performance)             | Section 4: Raw OS Detection and Conversion (O(1) lookup)                                                                                |
+| Critical Constraint (No Fallback) | Section 4.2: Discarding Behavior + Section 8.2: Explicit constraint and rationale                                                       |
 
 ---
 
-## 9. Open Questions
+## 11. Open Questions
 
 <!-- textlint-disable ja-technical-writing/no-exclamation-question-mark -->
 
@@ -208,8 +338,13 @@ The module MUST NOT:
 
 ---
 
-## 10. Change History
+## 12. Change History
 
-| Date       | Version | Description                    |
-| ---------- | ------- | ------------------------------ |
-| 2025-12-30 | 1.0     | Initial specification document |
+| Date       | Version | Description                                                                                                                                                                                   |
+| ---------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2025-12-31 | 1.5     | Removed Type Definition Refactoring section (moved to implementation.md) - specifications now focuses purely on behavioral contracts                                                          |
+| 2025-12-31 | 1.4     | Restructured sections per Basic Architecture Flow: Stage 1 & 2 (Section 4), Virtual OS Abstraction (Section 5), Stage 3 (Section 6), with explicit "Discarding" behavior for unsupported OSes |
+| 2025-12-31 | 1.3     | Added Section 3 "Basic Architecture Flow" documenting _rawOS → VirtualOS → Shell pipeline                                                                                                     |
+| 2025-12-31 | 1.2     | Enhanced Section 11.1 with Decision Records (DR000-DR004): naming conventions, function renaming, public mapping                                                                              |
+| 2025-12-31 | 1.1     | Addendum: Type definition refactoring plan (Section 11.1) - command-result.types.ts migration                                                                                                 |
+| 2025-12-30 | 1.0     | Initial specification document                                                                                                                                                                |
