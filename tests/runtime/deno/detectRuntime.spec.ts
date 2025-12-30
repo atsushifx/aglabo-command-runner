@@ -10,10 +10,10 @@
 import { assertEquals, assertExists } from '@std/assert';
 
 // Type definitions
-import { AGRuntimeType } from '../../../../shared/types/runtime.types.ts';
+import { AGRuntimeType } from '#shared/types/runtime.types.ts';
 
 // Runtime detection function
-import { detectRuntime } from '../../../runtime/detectRuntime.ts';
+import { detectRuntime } from '#runtime/detectRuntime.ts';
 
 /**
  * Deno Runtime Detection Tests
