@@ -8,32 +8,32 @@
 {
   // Import map for path aliases
   "imports": {
-    "@shared/": "./shared/",
-    "@/": "./src/",
-    "@runtime/": "./src/runtime/",
-    "@std/assert": "jsr:@std/assert@^1"
+    "#shared/*": "./shared/*",
+    "#/*": "./src/",
+    "#runtime/*": "./src/runtime/*",
+    "@std/assert": "jsr:@std/assert",
   },
   "compilerOptions": {
     // Deno-specific type libraries
     "lib": [
       "deno.window",
       "deno.ns",
-      "esnext"
+      "esnext",
     ],
     // Type definitions
     "types": [
-      "npm:@types/node"
+      "npm:@types/node",
     ],
     // Strict type checking
     "strict": true,
     // Module settings for Deno
-    "module": "esnext"
+    "module": "esnext",
   },
   // Test configuration
   "test": {
     "include": [
-      "src/runtime/__tests__/runtime/deno/**/*.test.ts"
-    ]
+      "tests/runtime/deno/**/*.spec.ts",
+    ],
   },
   // Formatting settings (match project standards)
   "fmt": {
@@ -42,14 +42,13 @@
     "indentWidth": 2,
     "semiColons": true,
     "singleQuote": false,
-    "proseWrap": "preserve"
+    "proseWrap": "preserve",
   },
   // Lint settings
   "lint": {
     "exclude": [
-      "src/__tests__/runtime/node/**",
-      "src/__tests__/runtime/bun/**",
-      "base/configs/**"
-    ]
-  }
+      "src/**/__tests__/**",
+      "base/configs/**",
+    ],
+  },
 }
