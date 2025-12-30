@@ -1,5 +1,5 @@
-# src: shared/configs/secretlint.config.base.yaml
-# @(#) : editorconfig base configs (templates)
+# src: .editorconfig
+# @(#) : editorconfig for typescript project
 #
 # Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
 #
@@ -15,6 +15,15 @@ root = true
 end_of_line = lf
 insert_final_newline = true
 charset = utf-8
+indent_style = space
+indent_size = 2
+tab_width = 2
+
+# ─────────────────────────────
+# Programming Language
+# ─────────────────────────────
+# TypeScript
+[*.{js,jsx,ts,tsx}]
 indent_style = space
 indent_size = 2
 tab_width = 2
@@ -38,12 +47,7 @@ tab_width = 2
 # ─────────────────────────────
 # YAML
 # ─────────────────────────────
-[*.yaml]
-indent_style = space
-indent_size = 2
-tab_width = 2
-
-[*.yml]
+[*.{yaml,yml}]
 indent_style = space
 indent_size = 2
 tab_width = 2
@@ -95,6 +99,12 @@ tab_width = 4
 # ─────────────────────────────
 # Special Files (e.g. Dockerfile, LICENSE)
 # ─────────────────────────────
+# ignore files
+[**/*ignore]
+indent_style = space
+indent_size = 2
+tab_width = 2
+
 
 # [Dockerfile]
 # indent_style = space
