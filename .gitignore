@@ -44,6 +44,7 @@ $~*
 # CLAUDE.md
 .claude/*
 
+
 # MCP server dependency files
 .serena/
 .lsmcp/
