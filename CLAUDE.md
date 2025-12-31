@@ -1,132 +1,138 @@
 # CLAUDE.md
 
-## コア原則
+<!-- textlint-disable ja-technical-writing/max-comma -->
 
-### プロジェクト状態
+## Core Principles
 
-- TypeScriptライブラリ用テンプレートプロジェクト
-- `src/`ディレクトリ未作成（実装コードなし）
-- テンプレート段階 - 設定/ドキュメント/スクリプトに注力
+### Project Status
 
-### AI協働ルール
+- TypeScript library template → os2shell module active development
+- Deckrd workflow: Requirements → Specifications → Implementation → Tasks execution
+- Implementation started: `src/_internal/types/`, `shared/types/` created
+- Task tracking: `docs/.deckrd/command-runner/os2shell/tasks/tasks.md` (568 tasks, T01-01 completed)
 
-- **コミットメッセージ**: 自動生成必須（手動作成禁止）
-- **メモリー活用**: serena-mcpの5つのメモリーを優先参照
-- **ドキュメント優先**: 詳細は `docs/` 配下を参照
-- **品質ゲート**: コミット前に自動実行（手動も可）
+### AI Collaboration Rules
 
-### 絶対禁止事項
+- コミット: コミットメッセージは **自動生成必須** (手動作成禁止)
+  - `git add <files>` → `git commit` で hook が自動生成
+  - 生成エラー時のみ手動対応
 
-- 手動でのコミットメッセージ作成
-- CRLF改行の使用（LF必須）
-- シークレット情報のコミット
-- dprint/ESLintで自動化可能な手動修正
+- メモリー活用: serena-mcp の 5 つのメモリーを参照
+  - project_overview, code_style_conventions, suggested_commands など
+  - `mcp__plugin_claude-idd-framework_serena-mcp__read_memory` でアクセス
 
-## 技術コンテキスト
+- ドキュメント優先:
+  - 詳細情報は `docs/` 配下に記載
+  - CLAUDE.md は指針のみ (繰り返しなし)
 
-### スタック
+- 無視すべき自動化:
+  - dprint/ESLint で自動化可能な手動修正は不要
+  - CRLF 改行の手動変更不要 (LF 設定完了)
+  - 改行・スペース調整は dprint に任せる
 
-- TypeScript 5.9+ (ES2022, strict)
-- Node.js >= 20, pnpm >= 10.24.0
-- Build: tsup, Test: Vitest 4.x
-- Lint: ESLint 9.x, textlint, markdownlint
-- Format: dprint (120文字, 2スペース, LF)
-- Security: gitleaks, secretlint
+### Non-Negotiable Standards
 
-### 必須コマンド
+- 改行: LF (Unix-style) 必須
+- エンコーディング: UTF-8 必須
+- シークレット: `pnpm lint:secrets` で検出・排除 (重要)
+- ファイル配置:
+  - 共有型 → `shared/types/*.types.ts`
+  - テスト → テストする対象に応じてファイル名設定 (例: `RawOSPlatformType.spec.ts`)
 
-コミットワークフロー:
+---
+
+## Technical Context
+
+### Tech Stack
+
+- Language: TypeScript 5.9+ (ES2022, strict mode)
+- Runtime: Node.js ≥ 20, pnpm ≥ 10.24.0
+- Build: tsup (ESM)
+- Test: Vitest 4.x (unit, functional, integration, e2e)
+- Quality: ESLint 9.x, dprint, gitleaks, secretlint, commitlint
+
+### Project Structure
 
 ```bash
+.
+├── src/                              # 実装コード
+│   └── _internal/types/              # 内部型定義
+│       └── __tests__/unit/           # ユニットテスト (.spec.ts)
+├── shared/types/                     # 共有型定義
+├── docs/
+│   ├── dev-standards/               # 開発標準 (01-06-*.md)
+│   ├── projects/                    # プロジェクト詳細
+│   └── .deckrd/command-runner/os2shell/
+│       ├── tasks/tasks.md           # 実装タスク 568 件
+│       ├── requirements/
+│       ├── specifications/
+│       ├── implementation/
+│       └── DecisionRecords.md
+├── configs/                         # ツール設定 (eslint, vitest など)
+├── scripts/                         # 開発スクリプト
+└── CLAUDE.md                        # このファイル
+```
+
+### Essential Commands
+
+```bash
+# コミットワークフロー
 git add <files>
 git commit              # 自動メッセージ生成
+
+# 品質チェック
+pnpm format:dprint     # コード整形
+pnpm check:types       # 型チェック
+pnpm lint:secrets      # シークレット検出 (重要)
+pnpm lint:filenames    # ファイル名規約
+
+# テスト実行
+pnpm test:develop      # ユニットテスト
+pnpm test:functional   # 関数テスト
+
+# ビルド
+pnpm clean && pnpm exec tsup --config ./configs/tsup.config.esm.ts
 ```
 
-品質チェック（コミット前推奨）:
+### Implementation Guidelines
 
-```bash
-pnpm format:dprint      # コード整形
-pnpm lint:filenames     # ファイル名
-pnpm lint:text          # テキスト
-pnpm lint:markdown      # Markdown
-pnpm lint:secrets       # シークレットスキャン（重要）
-pnpm check:spells       # スペルチェック
-pnpm check:types        # 型チェック（src/作成後）
-```
+- テスト実装パターン:
+  - Format: BDD (Given-When-Then comments)
+  - Coverage: 正常系 (normal) / 異常系 (invalid) / エッジケース (edge cases)
+  - File extension: `.spec.ts` (unit), `.test.ts` (functional/integration/e2e)
 
-### プロジェクト構造
+- ファイル命名:
+  - テストは対象に合わせる (例: `RawOSPlatformType.spec.ts`)
+  - 型ファイルは用途で分類 (例: `raw-os-platform.types.ts`)
 
-```text
-.
-├── src/                    # 未作成（実装予定）
-├── configs/                # プロジェクト固有設定
-├── base/configs/           # ベース設定（継承用）
-├── scripts/                # 開発スクリプト
-│   └── prepare-commit-msg.sh
-├── docs/
-│   ├── dev-standards/      # 開発標準
-│   └── projects/           # プロジェクト固有ドキュメント
-├── lefthook.yml            # Git hooks設定
-└── package.json
-```
+---
 
-### Git Hooks（自動実行）
+## Documentation References
 
-1. pre-commit: gitleaks, secretlint（並列）
-2. prepare-commit-msg: AIコミットメッセージ生成
-3. commit-msg: commitlint（形式検証）
+### Detailed Information (外部ドキュメント)
 
-### テンプレート固有の注意
+Development standards (`docs/dev-standards/`):
 
-- `check:types` は src/ 作成後に有効
-- シンボル検索は src/ 作成後に有効
-- build/test コマンドは package.json に追加が必要
+- 01-onboarding.md: セットアップ手順
+- 02-development-workflow.md: 開発フロー詳細
+- 03-commit-message-conventions.md: コミットメッセージ規約
+- 04-quality-assurance.md: 品質保証・ゲート
+- 05-coding-conventions.md: コーディング規約
+- 06-ai-assisted-development.md: AI 支援開発
 
-## ドキュメント参照
+Project-specific (`docs/projects/`):
 
-### serena-mcp メモリー
+- mcp_servers.md: MCP サーバー統合
+- development_tools.md: ツールインストール
+- using_template.md: テンプレート初期化
 
-詳細情報が格納されたメモリー（優先参照）:
+### Deckrd Workflow Status
 
-- `project_overview` - プロジェクト全体概要
-- `code_style_conventions` - コーディング規約
-- `suggested_commands` - 推奨コマンド集
-- `task_completion_checklist` - タスク完了チェックリスト
-- `windows_environment` - Windows環境情報
+- Active Module: os2shell
+- Current Phase: Tasks execution → T01-02～T01-12 next
+- Task Location: `docs/.deckrd/command-runner/os2shell/tasks/tasks.md`
+- Completed: Section 01 T01-01
 
-### 開発標準（docs/dev-standards/）
+---
 
-- `01-onboarding.md` - 新規参加者向けセットアップ
-- `02-development-workflow.md` - 開発ワークフロー
-- `03-commit-message-conventions.md` - コミットメッセージ規約
-- `04-quality-assurance.md` - 品質保証とゲート
-- `05-coding-conventions.md` - コーディング規約
-- `06-ai-assisted-development.md` - AI支援開発
-
-### プロジェクト固有（docs/projects/）
-
-- `commit_message_system.md` - コミットメッセージ生成の実装
-- `git_hooks.md` - Git hooks設定詳細
-- `mcp_servers.md` - MCPサーバー統合
-- `development_tools.md` - ツールインストール
-- `repository_structure.md` - リポジトリ構造詳細
-- `plugin_integration.md` - Claude Codeプラグイン
-- `using_template.md` - テンプレート初期化手順
-
-### MCP サーバー
-
-- **serena-mcp**: セマンティックコード操作
-  - シンボル検索・編集（src/作成後）
-  - 上記5つのメモリー管理
-- **lsmcp**: LSPベースIDE機能
-  - 定義ジャンプ、ホバー、診断
-  - 設定ファイルで現在利用可能
-
-詳細: `docs/projects/mcp_servers.md`
-
-## 重要な環境設定
-
-- **改行**: LF (Unix-style) 必須
-- **エンコーディング**: UTF-8 必須
-- **プラットフォーム**: Windows最適化（クロスプラットフォーム対応）
-- **初回セットアップ**: `pnpm install && pnpm prepare`
+**Last Updated**: 2025-12-31 (T01-01 implementation & CLAUDE.md refactoring)
