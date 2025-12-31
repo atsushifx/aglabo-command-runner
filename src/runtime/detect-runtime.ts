@@ -1,4 +1,4 @@
-// src: src/runtime/detectRuntime.ts
+// src: src/runtime/detect-runtime.ts
 // @(#): Runtime detection for cross-runtime support
 //
 // Copyright (c) 2025 atsushifx <https://github.com/atsushifx>

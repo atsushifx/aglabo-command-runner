@@ -1,4 +1,4 @@
-// src: src/runtime/getOSPlatform.ts
+// src: src/runtime/get-os-platform.ts
 // @(#): OS platform detection across JavaScript runtimes
 //
 // Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
@@ -10,7 +10,7 @@
 import type { AGPlatformResult } from '#shared/types/runtime.types.ts';
 
 // function
-import { detectRuntime } from '#runtime/detectRuntime.ts';
+import { detectRuntime } from '#runtime/detect-runtime.ts';
 import { AGRuntimeType } from '#shared/types/runtime.types.ts';
 
 // ============================================================================

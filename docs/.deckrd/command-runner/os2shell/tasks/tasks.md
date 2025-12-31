@@ -110,7 +110,7 @@ task_count: 568
 
 - [x] **T01-12-01** Given: shared/types/index.ts / When: updating barrel exports / Then: exports added from command-result.types.ts and os2shell.types.ts
 - [x] **T01-12-02** Given: barrel file updated / When: checking structure / Then: exports grouped by source file and runtime.types.ts exports preserved
-- [ ] **T01-12-03** Given: barrel complete / When: running type check / Then: no circular dependencies or duplicate exports; all imports resolve correctly
+- [x] **T01-12-03** Given: barrel complete / When: running type check / Then: no circular dependencies or duplicate exports; all imports resolve correctly
 
 ---
 

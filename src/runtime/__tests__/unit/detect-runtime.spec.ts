@@ -1,4 +1,4 @@
-// src: src/runtime/__tests__/unit/detectRuntime.spec.ts
+// src: src/runtime/__tests__/unit/detect-runtime.spec.ts
 // @(#): Unit tests for runtime detection
 //
 // Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
@@ -14,7 +14,7 @@ import type { AGRuntimeResult } from '#shared/types/runtime.types.ts';
 import { AGRuntimeType } from '#shared/types/runtime.types.ts';
 
 // Runtime detection function
-import { detectRuntime } from '#runtime/detectRuntime.ts';
+import { detectRuntime } from '#runtime/detect-runtime.ts';
 
 // Test cases
 /**

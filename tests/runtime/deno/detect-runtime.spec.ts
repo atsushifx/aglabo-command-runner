@@ -1,4 +1,4 @@
-// src: src/runtime/__tests__/runtime/deno/detectRuntime.test.ts
+// src: tests/runtime/deno/detect-runtime.spec.ts
 // @(#): Runtime tests for Deno environment
 //
 // Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
@@ -13,7 +13,7 @@ import { assertEquals, assertExists } from '@std/assert';
 import { AGRuntimeType } from '#shared/types/runtime.types.ts';
 
 // Runtime detection function
-import { detectRuntime } from '#runtime/detectRuntime.ts';
+import { detectRuntime } from '#runtime/detect-runtime.ts';
 
 /**
  * Deno Runtime Detection Tests

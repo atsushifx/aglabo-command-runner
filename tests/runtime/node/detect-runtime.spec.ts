@@ -1,4 +1,4 @@
-// src: src/runtime/__tests__/runtime/node/detectRuntime.spec.ts
+// src: tests/runtime/node/detect-runtime.spec.ts
 // @(#): Runtime tests for Node.js environment
 //
 // Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
@@ -13,7 +13,7 @@ import { describe, expect, it } from 'vitest';
 import { AGRuntimeType } from '#shared/types/runtime.types.ts';
 
 // Runtime detection function
-import { detectRuntime } from '#/runtime/detectRuntime.ts';
+import { detectRuntime } from '#/runtime/detect-runtime.ts';
 
 /**
  * Node.js Runtime Detection Tests

@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 // type definitions
-import { AGTOSType, AGTShellType, AG_OS_TO_SHELL_MAP } from '#shared/types/os2shell.types';
+import { AG_OS_TO_SHELL_MAP, AGTOSType, AGTShellType } from '#shared/types/os2shell.types';
 
 /**
  * T01-08: Create shared/types/os2shell.types.ts File (3 tasks)
