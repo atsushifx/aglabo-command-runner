@@ -298,3 +298,52 @@ export type AGCommandSuccess = {
  * ```
  */
 export type AGCommandResult = AGCommandSuccess | AGCommandError;
+
+/**
+ * Raw OS platform type (internal)
+ *
+ * @remarks
+ * This is the internal representation of supported OS platforms as returned
+ * by Node.js `process.platform`, Deno `Deno.build.os`, and similar runtime APIs.
+ * The underscore prefix indicates this is a low-level type definition
+ * that should typically be used through higher-level abstractions
+ * like {@link AGPlatformType}.
+ *
+ * Supported values:
+ * - 'win32': Microsoft Windows
+ * - 'darwin': Apple macOS
+ * - 'linux': Linux (all distributions)
+ *
+ * @internal
+ */
+export type _RawOSPlatformType = 'win32' | 'darwin' | 'linux';
+
+/**
+ * Result type for raw OS platform detection operations (internal)
+ *
+ * @remarks
+ * This type represents the outcome of raw OS platform detection.
+ * Returns a specific {@link _RawOSPlatformType} when detection succeeds,
+ * or `undefined` when the platform cannot be determined.
+ * The underscore prefix indicates this is a low-level type definition
+ * that should typically be used through higher-level abstractions.
+ *
+ * @example
+ * ```typescript
+ * import { _RawOSPlatformResult } from '@aglabo/command-runner/types';
+ *
+ * // Successful detection
+ * const detected: _RawOSPlatformResult = 'win32';
+ *
+ * // Failed detection
+ * const unknown: _RawOSPlatformResult = undefined;
+ *
+ * // Type guard usage
+ * if (detected !== undefined) {
+ *   console.log(`Platform detected: ${detected}`); // Type-safe
+ * }
+ * ```
+ *
+ * @internal
+ */
+export type _RawOSPlatformResult = _RawOSPlatformType | undefined;
