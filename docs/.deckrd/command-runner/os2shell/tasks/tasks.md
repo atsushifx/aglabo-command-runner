@@ -64,11 +64,11 @@ task_count: 568
 
 ### T01-06: Define AGTCommandSuccess Type in command-result.types.ts (5 tasks)
 
-- [ ] **T01-06-01** Given: command-result.types.ts updating / When: defining AGTCommandSuccess type / Then: type object created
-- [ ] **T01-06-02** Given: type defined / When: checking normal fields / Then: includes success and result fields
-- [ ] **T01-06-03** Given: type defined / When: checking invalid fields / Then: success is literal true (not boolean, not false), result is unknown (not any, not void), no extra fields like error
-- [ ] **T01-06-04** Given: type defined / When: checking edge cases / Then: field order matches error pattern, success is required not optional, allows additional properties
-- [ ] **T01-06-05** Given: type defined / When: checking type / Then: type is properly exported and accessible as AGTCommandSuccess
+- [x] **T01-06-01** Given: command-result.types.ts updating / When: defining AGTCommandSuccess type / Then: type object created
+- [x] **T01-06-02** Given: type defined / When: checking normal fields / Then: includes success and result fields
+- [x] **T01-06-03** Given: type defined / When: checking invalid fields / Then: success is literal true (not boolean, not false), result is unknown (not any, not void), no extra fields like error
+- [x] **T01-06-04** Given: type defined / When: checking edge cases / Then: field order matches error pattern, success is required not optional, allows additional properties
+- [x] **T01-06-05** Given: type defined / When: checking type / Then: type is properly exported and accessible as AGTCommandSuccess
 
 ### T01-07: Define AGTCommandResult Union Type (3 tasks)
 
