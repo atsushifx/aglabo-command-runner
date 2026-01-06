@@ -75,7 +75,7 @@ Phase 6: ワークフロー終了
 実行内容:
 
 - `docs/.deckrd/coder.session` の `DECKRD_ACTIVE_SESSION` から現在セッションを取得
-- `DECKRD_TASK_FILE` で指定されたタスク MD ファイルを読み込む
+- セッションファイルの `DECKRD_TASK_FILE` で指定されたタスク MD ファイルを読み込む
 - 指定されたタスク ID のセクションを抽出
 - テストケース一覧、Given-When-Then 詳細を確認
 
@@ -105,7 +105,7 @@ Red-Green-Refactor サイクルで実装タスクを完了します。
 
 実行内容:
 
-- **ステップ 1～8** に従い、厳密な BDD プロセスで実装
+- ステップ 1～8 に従い、厳密な BDD プロセスで実装
 - 各ステップで品質ゲート実行
 - タスク完了ごとに進捗を記録
 

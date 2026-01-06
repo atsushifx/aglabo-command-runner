@@ -6,6 +6,9 @@ license: MIT
 meta:
   author: atsushifx
   version: 0.0.3
+  changed:
+    - v0.0.4: コマンドベースアーキテクチャへの移行。`coding` コマンドをデフォルトに設定。各コマンドの詳細仕様を `references/commands/<command>.md` に集約
+    - v0.0.1: 初版
 ---
 
 <!-- textlint-disable ja-technical-writing/no-exclamation-question-mark -->
@@ -68,14 +71,34 @@ Deckrd セッションで定義されたタスクを、**BDD (Behavior-Driven De
 
 ### コマンド形式
 
+deckrd-coder はコマンドベースアーキテクチャで動作します。
+
 ```bash
-# 単一タスク実装 (推奨)
+# 推奨: 明示的なコマンド指定
+/deckrd-coder coding T01-02
+
+# コマンド省略（デフォルトで coding を実行）
 /deckrd-coder T01-02
+
+# コマンド + パラメータ省略（アクティブセッション使用）
+/deckrd-coder coding
+
+# 全省略（アクティブセッション + coding コマンド）
+/deckrd-coder
 ```
+
+### コマンド一覧
+
+| コマンド   | 説明                           | 参照                                         |
+| ---------- | ------------------------------ | -------------------------------------------- |
+| `coding`   | **デフォルト** BDD タスク実装  | [coding.md](./references/commands/coding.md) |
+| `status`   | セッション進捗確認             | [status.md](./references/commands/status.md) |
+| `init`     | セッション初期化               | [init.md](./references/commands/init.md)     |
+| (拡張予定) | 他のコマンドは必要に応じて追加 | TBD                                          |
 
 > 注意
 >
-> オプションは現在のところ実装していません。
+> 複数タスク指定は非推奨 (1 message = 1 task の原則)
 
 ### Task ID 指定形式
 
@@ -83,10 +106,6 @@ Deckrd セッションで定義されたタスクを、**BDD (Behavior-Driven De
 | ------------- | ----------- | --------------------------------- |
 | セクション ID | `T01-02`    | **推奨** (単一テストケース対応)   |
 | 詳細 ID       | `T01-02-01` | **非推奨** (テストケース詳細指定) |
-
-> 注意
->
-> 複数タスク指定は非推奨 (1 message = 1 task の原則)
 
 詳細な使用方法とよくある質問は [FAQ.md](./references/faq.md) を参照。
 
@@ -130,6 +149,15 @@ Phase 5: 完了確認
 ### 参照ドキュメント一覧
 
 このスキルは以下のドキュメントを厳密に参照・遵守します。
+
+#### 0. コマンドリファレンス
+
+各コマンドの詳細仕様は `references/commands/` 配下に管理されています。
+
+- [coding.md](./references/commands/coding.md) - BDD タスク実装コマンド（**デフォルト**）
+- [status.md](./references/commands/status.md) - セッション進捗確認コマンド
+- [init.md](./references/commands/init.md) - セッション初期化コマンド
+- 拡張コマンド: あとで追加予定
 
 #### 1. [WORKFLOW.md](./references/workflow.md)
 
@@ -195,12 +223,55 @@ DECKRD_TASK_FILE=docs/.deckrd/command-runner/os2shell/tasks/tasks.md
 DECKRD_ACTIVE_SESSION=T01-07
 ```
 
+### セッション自動読み込み
+
+パラメータなしで `/deckrd-coder` を実行:
+
+1. `docs/.deckrd/coder.session` を読み込む
+2. `DECKRD_ACTIVE_SESSION` の値を取得 (例: `T01-08`)
+3. そのタスク ID で coding コマンドを自動実行
+
+例:
+
+```bash
+# セッションファイルが DECKRD_ACTIVE_SESSION=T01-08 を持つ場合
+/deckrd-coder          # → /deckrd-coder coding T01-08 と同じ動作
+```
+
 ### セッション更新
 
-セッションを更新する場合:
+セッションファイルの更新は、専用スクリプトで実施:
 
-1. `DECKRD_ACTIVE_SESSION` を新しいタスク ID に変更
-2. 必要に応じて `DECKRD_TASK_FILE` を別の tasks.md に変更
+#### 通常実行（直接）
+
+```bash
+# タスク ID を更新
+./.claude/skills/deckrd-coder/scripts/update-deckrd-session.sh DECKRD_ACTIVE_SESSION T01-09
+
+# セッションステータスを更新
+./.claude/skills/deckrd-coder/scripts/update-deckrd-session.sh DECKRD_SESSION_STATUS Paused
+
+# タスクファイルパスを更新
+./.claude/skills/deckrd-coder/scripts/update-deckrd-session.sh DECKRD_TASK_FILE docs/.deckrd/.../another-tasks.md
+```
+
+#### Plugin / Agent での実行（`${CLAUDE_PLUGIN_ROOT}` 参照）
+
+```bash
+# Plugin 環境での実行
+bash "${CLAUDE_PLUGIN_ROOT}/.claude/skills/deckrd-coder/scripts/update-deckrd-session.sh" DECKRD_ACTIVE_SESSION T01-09
+bash "${CLAUDE_PLUGIN_ROOT}/.claude/skills/deckrd-coder/scripts/update-deckrd-session.sh" DECKRD_SESSION_STATUS Paused
+bash "${CLAUDE_PLUGIN_ROOT}/.claude/skills/deckrd-coder/scripts/update-deckrd-session.sh" DECKRD_TASK_FILE docs/.deckrd/.../another-tasks.md
+
+# セッションファイルカスタマイズ
+export DECKRD_SESSION_FILE="docs/.deckrd/custom.session"
+bash "${CLAUDE_PLUGIN_ROOT}/.claude/skills/deckrd-coder/scripts/update-deckrd-session.sh" DECKRD_ACTIVE_SESSION T01-09
+```
+
+> 重要:
+> セッションファイルは直接編集を避け、`update-deckrd-session.sh` スクリプトを使用してください。
+> これにより一貫性と追跡可能性が確保されます。
+> Plugin 環境では `${CLAUDE_PLUGIN_ROOT}` を使用することで、プロジェクトルートに依存しない動作が実現できます。
 
 ---
 
@@ -226,12 +297,6 @@ DECKRD_ACTIVE_SESSION=T01-07
 - bdd-coder が TodoWrite で詳細な進捗管理
 - コンテキスト分割によるメモリ削減
 
----
+## License
 
-## 変更履歴
-
-<!-- textlint-disable -->
-
-- v0.0.1: 初版
-- v0.0.2: workflow.md, implementation.md, troubleshooting.md, bdd-coder.md への参照を明示し、ユーザーおよびエージェント AI 向けの包括的ガイドに改定
-- v0.0.3: セッション設定を `.env` 形式（`docs/.deckrd/coder.session`）に統一。WORKFLOW.md と README.md を更新し、セッション参照パスを明示
+MIT License
