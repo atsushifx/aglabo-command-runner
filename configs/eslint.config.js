@@ -25,8 +25,8 @@ export default [
   {
     // ignore code for Deno
     ignores: [
-      'src/**/deno/**',
-      'src/**/bun/**',
+      'tests/**/deno/**',
+      'tests/**/bun/**',
     ],
   },
   ...baseConfig,

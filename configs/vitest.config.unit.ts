@@ -24,7 +24,6 @@ import baseConfig from '../base/configs/vitest.config.base.ts';
 
 // config
 export default mergeConfig(baseConfig, {
-  plugins: [tsconfigPaths()],
   test: {
     include: [
       // Unit Test - pure unit tests for individual functions/methods

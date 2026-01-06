@@ -1,0 +1,35 @@
+# src: .gitignore
+# @(#) : gitignore settings for .claude
+#
+# Copyright (c) 2025 atsushifx <http://github.com/atsushifx>
+#
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
+# default all files are denies
+*
+
+# gitignore = thisfile
+!.git*
+!**/.git*
+
+# settings
+!settings.json
+
+## claude
+#
+# plugins
+!plugins/
+!plugins/**
+!plugins/**
+
+# agent
+!agents/
+!agents/**
+!agents/**
+
+# skills
+!skills/
+!skills/**
+
+
