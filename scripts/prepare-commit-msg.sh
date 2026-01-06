@@ -261,13 +261,19 @@ get_model_command() {
 
   case "$model" in
     # OpenAI models
-    gpt-* | o1-*)
+    gpt-* )
       AI_COMMAND=("codex" "exec" "--model" "${model}")
       ;;
 
     # Anthropic (Claude) models
-    claude-* | haiku | sonnet | opus)
+    claude-* | haiku* | sonnet* | opus*)
       AI_COMMAND=("claude" "-p" "--model" "${model}")
+      ;;
+
+    # Copilot models (copilot/model format)
+    copilot/*)
+      local copilot_model="${model#copilot/}"
+      AI_COMMAND=("copilot" "--model" "${copilot_model}")
       ;;
 
     # OpenCode models (provider/model format)
