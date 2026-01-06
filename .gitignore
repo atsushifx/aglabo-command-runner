@@ -55,6 +55,10 @@ tmp/
 **/tmp/
 
 
+## Session
+**session
+**session.json
+
 ##  Editor
 #   VSCode
 .vscode/*
