@@ -33,8 +33,15 @@ meta:
 
 ### テスト・品質ゲート必須
 
-- 実装終了時点で、すべてのテストが PASS
-- Lint・型チェック・その他の品質ゲートが合格
+実装は2段階の品質ゲートで検証されます：
+
+1. **Phase 4 (bdd-coderエージェント内)** - 簡略版
+   - 全テストが PASS
+   - 型チェック合格
+   - Lint合格
+
+2. **ステップ 7 (coding コマンド全体)** - 完全版
+   - テスト・型・Lint加えて、セキュリティ・ファイル命名規約・スペルチェック・テキスト品質など全項目合格
 
 ---
 
@@ -53,15 +60,17 @@ Deckrd セッションで定義されたタスクを、**BDD (Behavior-Driven De
 
 ### How (どのように実装するのか)
 
-8 つのステップ (Step 1～8) で構成される実装フロー:
+9 つのステップ (Step 1～9) で構成される実装フロー:
 
 1. **Step 1**: 品質ゲート用コマンド取得
 2. **Step 2**: 実装タスクリスト取得
-3. **Step 3-4**: BDD サイクル (Red-Green-Refactor)
-4. **Step 5**: 品質ゲート実行 (全体検証)
-5. **Step 6**: 進捗記録
-6. **Step 7**: Refactor フェーズ (全体コード整理)
-7. **Step 8**: 完了判定
+3. **Step 3**: 未実装タスク抽出
+4. **Step 4**: bdd-coderエージェントへ委譲 (Red-Green-Refactor + 簡略版品質ゲート)
+5. **Step 5**: 完了タスク記録
+6. **Step 6**: 繰り返し判定
+7. **Step 7**: 品質ゲート実行 (全項目検証) ← 全タスク完了後
+8. **Step 8**: Refactor フェーズ (全体コード整理)
+9. **Step 9**: 完了判定
 
 詳細は [IMPLEMENTATION.md](./references/implementation.md) を参照。
 
@@ -188,18 +197,20 @@ Phase 5: 完了確認
 
 ---
 
-### 内部エージェント: bdd-coder
+### 外部エージェント: bdd-coder
 
-**位置**: `plugins/deckrd-coder/agents/bdd-coder.md`
+**概要**: 指定したタスク実装を専門に行う独立した専用エージェント
 
-**役割**: このスキルの **Step 3** で自動起動され、以下を担当:
+**役割**: deckrd-coder スキルの **Step 3** から呼び出され、以下の実装業務を担当:
 
 - Red フェーズ: テスト実装 → テスト失敗確認
 - Green フェーズ: 最小実装 → テスト合格確認
 - Refactor フェーズ: 軽微な整理 (ユーザー相談なし)
 - 品質ゲート確認: Lint・型チェック合格確認
 
-詳細は `plugins/deckrd-coder/agents/bdd-coder.md` を参照。
+**独立起動**: deckrd-coder 経由でなく直接起動も可能
+
+詳細は bdd-coder エージェントのドキュメントを参照。
 
 ---
 
@@ -291,11 +302,11 @@ bash "${CLAUDE_PLUGIN_ROOT}/.claude/skills/deckrd-coder/scripts/update-deckrd-se
 - シンボル検索、型情報取得を効率化
 - 不要なファイル全文読み込みを削減
 
-### 3. bdd-coder エージェント
+### 3. bdd-coder エージェント連携
 
-- 親スキルは高レベル指示のみ
-- bdd-coder が TodoWrite で詳細な進捗管理
-- コンテキスト分割によるメモリ削減
+- deckrd-coder スキルが高レベル指示をし、bdd-coder が実装を担当
+- bdd-coder が TodoWrite で詳細な進捗管理を実施
+- 専用エージェントによるコンテキスト分割でメモリ効率化
 
 ## License
 

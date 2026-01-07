@@ -65,15 +65,17 @@ Deckrd ワークフローの tasks.md から指定したタスク（例:`T01-02`
 
 詳細は各コマンドのドキュメント（`references/commands/<command>.md`）を参照してください。
 
-## 含まれるコンポーネント
-
-### エージェント
-
-- bdd-coder: Red-Green-Refactor サイクルで実装を推進するエージェント
+## 統合コンポーネント
 
 ### スキル
 
-- deckrd-coder: deckrd タスク解析と BDD 実装自動化スキル
+- **deckrd-coder**: deckrd タスク解析と BDD 実装自動化スキル
+
+### 外部エージェント
+
+- **bdd-coder**: 指定タスク実装の専用エージェント（独立起動）
+  - Red-Green-Refactor サイクルで実装を推進
+  - deckrd-coder スキルから呼び出されて動作
 
 ## インストール
 
@@ -119,11 +121,10 @@ deckrd-coder/
    - Todo を更新
    - 次のテストケースへ
 
-4. **Phase 4**: 品質保証チェック実行
+4. **Phase 4**: 品質ゲート実行（bdd-coderエージェント内）
    - ユニットテスト実行
-   - シークレット検出
    - 型チェック
-   - コード整形確認
+   - Lintチェック
 
 5. **Phase 5**: 実装完了
    - 全テスト PASS、型エラーなし確認
