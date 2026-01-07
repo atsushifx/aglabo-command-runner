@@ -127,30 +127,30 @@ task_count: 568
 
 ### T02-02: Deno Platform Detection (6 tasks)
 
-- [ ] **T02-02-01** Given: Deno runtime available / When: calling _getRawOSPlatform() / Then: function detects Deno correctly
-- [ ] **T02-02-02** Given: Deno running on Windows / When: checking detected platform / Then: returns 'win32'
-- [ ] **T02-02-03** Given: Deno running on macOS / When: checking detected platform / Then: returns 'darwin'
-- [ ] **T02-02-04** Given: Deno running on Linux / When: checking detected platform / Then: returns 'linux'
-- [ ] **T02-02-05** Given: Deno.build.os available / When: validating against standard values / Then: no unexpected platform values
-- [ ] **T02-02-06** Given: Deno platform detection completed / When: running type check / Then: return value is _RawOSPlatformType
+- [x] **T02-02-01** Given: Deno runtime available / When: calling _getRawOSPlatform() / Then: function detects Deno correctly
+- [x] **T02-02-02** Given: Deno running on Windows / When: checking detected platform / Then: returns 'win32'
+- [x] **T02-02-03** Given: Deno running on macOS / When: checking detected platform / Then: returns 'darwin'
+- [x] **T02-02-04** Given: Deno running on Linux / When: checking detected platform / Then: returns 'linux'
+- [x] **T02-02-05** Given: Deno.build.os available / When: validating against standard values / Then: no unexpected platform values
+- [x] **T02-02-06** Given: Deno platform detection completed / When: running type check / Then: return value is _RawOSPlatformType
 
 ### T02-03: Bun Platform Detection (6 tasks)
 
-- [ ] **T02-03-01** Given: Bun runtime available / When: calling _getRawOSPlatform() / Then: function detects Bun correctly
-- [ ] **T02-03-02** Given: Bun running on Windows / When: checking detected platform / Then: returns appropriate value
-- [ ] **T02-03-03** Given: Bun running on macOS / When: checking detected platform / Then: returns appropriate value
-- [ ] **T02-03-04** Given: Bun running on Linux / When: checking detected platform / Then: returns appropriate value
-- [ ] **T02-03-05** Given: Bun.env or Bun.platform available / When: validating against standard values / Then: consistent with other runtimes
-- [ ] **T02-03-06** Given: Bun platform detection completed / When: running type check / Then: return value is _RawOSPlatformType
+- [x] **T02-03-01** Given: Bun runtime available / When: calling _getRawOSPlatform() / Then: function detects Bun correctly
+- [x] **T02-03-02** Given: Bun running on Windows / When: checking detected platform / Then: returns appropriate value
+- [x] **T02-03-03** Given: Bun running on macOS / When: checking detected platform / Then: returns appropriate value
+- [x] **T02-03-04** Given: Bun running on Linux / When: checking detected platform / Then: returns appropriate value
+- [x] **T02-03-05** Given: Bun.env or Bun.platform available / When: validating against standard values / Then: consistent with other runtimes
+- [x] **T02-03-06** Given: Bun platform detection completed / When: running type check / Then: return value is _RawOSPlatformType
 
 ### T02-04: Unsupported Runtime Handling (6 tasks)
 
-- [ ] **T02-04-01** Given: Unknown runtime environment / When: calling _getRawOSPlatform() / Then: function handles gracefully
-- [ ] **T02-04-02** Given: No runtime detection available / When: checking fallback behavior / Then: returns undefined or throws appropriate error
-- [ ] **T02-04-03** Given: Invalid runtime detection method / When: attempting detection / Then: doesn't crash, returns safe value
-- [ ] **T02-04-04** Given: Partial runtime information / When: attempting detection / Then: uses best available information
-- [ ] **T02-04-05** Given: Runtime detection in sandbox / When: accessing restricted APIs / Then: handles permission errors
-- [ ] **T02-04-06** Given: Error handling completed / When: checking error messages / Then: provides meaningful error context
+- [x] **T02-04-01** Given: Unknown runtime environment / When: calling _getRawOSPlatform() / Then: function handles gracefully
+- [x] **T02-04-02** Given: No runtime detection available / When: checking fallback behavior / Then: returns undefined or throws appropriate error
+- [x] **T02-04-03** Given: Invalid runtime detection method / When: attempting detection / Then: doesn't crash, returns safe value
+- [x] **T02-04-04** Given: Partial runtime information / When: attempting detection / Then: uses best available information
+- [x] **T02-04-05** Given: Runtime detection in sandbox / When: accessing restricted APIs / Then: handles permission errors
+- [x] **T02-04-06** Given: Error handling completed / When: checking error messages / Then: provides meaningful error context
 
 ### T02-05: Platform Validation (6 tasks)
 
