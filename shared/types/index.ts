@@ -19,14 +19,14 @@ export type {
   AGCommandSuccess,
   AGPlatformResult,
   AGRuntimeResult,
-} from './runtime.types';
+} from './runtime.types.ts';
 
 // Command result types (AGT-prefixed versions for backward compatibility)
 export type {
   AGTCommandError,
   AGTCommandResult,
   AGTCommandSuccess,
-} from './command-result.types';
+} from './command-result.types.ts';
 
 // ============================================================================
 // Value Exports
@@ -37,10 +37,10 @@ export {
   AGCommandErrorType,
   AGPlatformType,
   AGRuntimeType,
-} from './runtime.types';
+} from './runtime.types.ts';
 
 // Command result types (constants and enums)
-export { AGTCommandErrorType } from './command-result.types';
+export { AGTCommandErrorType } from './command-result.types.ts';
 
 // OS to Shell mapping types (constants and enums)
-export { AGTOSType, AGTShellType, AG_OS_TO_SHELL_MAP } from './os2shell.types';
+export { AG_OS_TO_SHELL_MAP, AGTOSType, AGTShellType } from './os2shell.types.ts';
