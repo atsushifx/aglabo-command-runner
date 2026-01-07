@@ -1,4 +1,4 @@
-// src: src/runtime/__tests__/unit/getOSPlatform.spec.ts
+// src: src/runtime/__tests__/unit/get-os-platform.spec.ts
 // @(#): Unit tests for OS platform detection
 //
 // Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
@@ -9,9 +9,9 @@
 // vitest
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 // type definitions
-import type { AGPlatformResult } from '@shared/types/runtime.types.ts';
+import type { AGPlatformResult } from '#shared/types/runtime.types.ts';
 // function to test
-import { getOSPlatform } from '@/runtime/getOSPlatform.ts';
+import { getOSPlatform } from '#runtime/get-os-platform.ts';
 /**
  * OS Platform Detection Unit Tests
  *

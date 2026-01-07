@@ -1,4 +1,4 @@
-// src: src/runtime/__tests__/runtime/bun/detectRuntime.spec.ts
+// src: tests/runtime/bun/detect-runtime.spec.ts
 // @(#): Runtime tests for Bun environment
 //
 // Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
@@ -10,10 +10,10 @@
 import { describe, expect, it } from 'vitest';
 
 // Type definitions
-import { AGRuntimeType } from '@shared/types/runtime.types.ts';
+import { AGRuntimeType } from '#shared/types/runtime.types.ts';
 
 // Runtime detection function
-import { detectRuntime } from '@runtime/detectRuntime.ts';
+import { detectRuntime } from '#runtime/detect-runtime.ts';
 
 /**
  * Bun Runtime Detection Tests

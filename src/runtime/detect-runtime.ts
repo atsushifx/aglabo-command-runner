@@ -1,4 +1,4 @@
-// src: src/runtime/detectRuntime.ts
+// src: src/runtime/detect-runtime.ts
 // @(#): Runtime detection for cross-runtime support
 //
 // Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
@@ -7,8 +7,9 @@
 // https://opensource.org/licenses/MIT
 
 // Type definitions
-import type { AGRuntimeResult } from '@shared/types/runtime.types.ts';
-import { AGRuntimeType } from '@shared/types/runtime.types.ts';
+import type { AGRuntimeResult } from '#shared/types/runtime.types.ts';
+// Constants
+import { AGRuntimeType } from '#shared/types/runtime.types.ts';
 
 // ============================================================================
 // Global Type Extensions
