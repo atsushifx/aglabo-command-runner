@@ -6,9 +6,6 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-// plugins
-import tsconfigPaths from 'vite-tsconfig-paths';
-
 // libs for base directory
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';

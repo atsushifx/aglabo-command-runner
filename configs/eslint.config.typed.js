@@ -24,6 +24,9 @@ export default createTypedConfig({
     'shared/**/*.ts',
     'tests/**/*.ts',
   ],
+  ignores: [
+    'tests/runtime/deno/**',
+  ],
   projectPaths: ['./tsconfig.json'],
   tsconfigRootDir: __rootDir,
   settings: {
