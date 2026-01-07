@@ -26,10 +26,8 @@ describe('AGTCommandResult Union Type', () => {
       };
 
       // Type narrowing test
-      if (result.success) {
-        // In this block, result should be AGTCommandSuccess
-        expect(result.result).toEqual({ data: 'test' });
-      }
+      expect(result.success).toBe(true);
+      expect(result.result).toEqual({ data: 'test' });
     });
 
     // Given: AGTCommandError object
@@ -41,17 +39,12 @@ describe('AGTCommandResult Union Type', () => {
         message: 'Command failed',
       };
 
-      if (result.success) {
-        // This block should not execute
-        throw new Error('Should not reach here');
-      } else {
-        // In this else block, result should be AGTCommandError
-        expect(result.type).toBe(AGTCommandErrorType.RuntimeErrors);
-        expect(result.message).toBe('Command failed');
-        // Verify the properties exist and have the correct types
-        expect(typeof result.type).toBe('string');
-        expect(typeof result.message).toBe('string');
-      }
+      // In this block, result should be AGTCommandError
+      expect(result.type).toBe(AGTCommandErrorType.RuntimeErrors);
+      expect(result.message).toBe('Command failed');
+      // Verify the properties exist and have the correct types
+      expect(typeof result.type).toBe('string');
+      expect(typeof result.message).toBe('string');
     });
 
     // Given: AGTCommandSuccess with multiple properties
@@ -64,9 +57,8 @@ describe('AGTCommandResult Union Type', () => {
       };
       const result: AGTCommandResult = success;
 
-      if (result.success) {
-        expect(result.result).toEqual({ output: 'test', code: 0 });
-      }
+      expect(result.success).toBe(true);
+      expect(result.result).toEqual({ output: 'test', code: 0 });
     });
 
     // Given: AGTCommandError with multiple properties
@@ -79,14 +71,10 @@ describe('AGTCommandResult Union Type', () => {
       };
       const result: AGTCommandResult = error;
 
-      if (result.success) {
-        throw new Error('Should not reach here');
-      } else {
-        expect(result.type).toBe(AGTCommandErrorType.ValidationErrors);
-        expect(result.message).toBe('Invalid input');
-        // Type narrowing verified - these properties are accessible in else block
-        expect('type' in result && 'message' in result).toBe(true);
-      }
+      expect(result.type).toBe(AGTCommandErrorType.ValidationErrors);
+      expect(result.message).toBe('Invalid input');
+      // Type narrowing verified - these properties are accessible
+      expect('type' in result && 'message' in result).toBe(true);
     });
   });
 
@@ -100,15 +88,8 @@ describe('AGTCommandResult Union Type', () => {
         result: { test: 'data' },
       };
 
-      let successCaseExecuted = false;
-      if (result.success === true) {
-        successCaseExecuted = true;
-        expect(result.result).toEqual({ test: 'data' });
-      } else {
-        throw new Error('Should not reach error case');
-      }
-
-      expect(successCaseExecuted).toBe(true);
+      expect(result.success).toBe(true);
+      expect(result.result).toEqual({ test: 'data' });
     });
 
     // Given: AGTCommandResult union with additional properties
@@ -121,10 +102,9 @@ describe('AGTCommandResult Union Type', () => {
         customField: 'extra',
       };
 
-      if (result.success) {
-        expect(result.result).toEqual({ value: 42 });
-        expect((result as Record<string, unknown>).customField).toBe('extra');
-      }
+      expect(result.success).toBe(true);
+      expect(result.result).toEqual({ value: 42 });
+      expect((result as Record<string, unknown>).customField).toBe('extra');
     });
   });
 
@@ -255,9 +235,9 @@ describe('AGTCommandResult Union Type', () => {
       // and works correctly with TypeScript strict mode
       const handler = (result: AGTCommandResult): string => {
         if (result.success) {
-          return JSON.stringify(result.result as unknown) as string;
+          return JSON.stringify(result.result);
         }
-        return (result.message as string) ?? '';
+        return result.message as string;
       };
 
       const success: AGTCommandResult = {

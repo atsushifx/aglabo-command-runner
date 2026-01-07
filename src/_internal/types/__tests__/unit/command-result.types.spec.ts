@@ -54,12 +54,11 @@ describe('AGTCommandResult Union Type', () => {
       };
 
       // When: checking success field
-      if (result.success) {
-        // Then: TypeScript should narrow to AGTCommandSuccess
-        // - should have 'result' property
-        expect(result).toHaveProperty('result');
-        expect(result.result).toEqual({ output: 'success' });
-      }
+      // Then: TypeScript should narrow to AGTCommandSuccess
+      // - should have 'result' property
+      expect(result.success).toBe(true);
+      expect(result).toHaveProperty('result');
+      expect(result.result).toEqual({ output: 'success' });
     });
 
     it('should narrow to AGTCommandError when success is false', () => {

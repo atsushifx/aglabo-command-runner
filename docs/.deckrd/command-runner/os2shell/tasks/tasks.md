@@ -118,12 +118,12 @@ task_count: 568
 
 ### T02-01: Node.js Platform Detection (6 tasks)
 
-- [ ] **T02-01-01** Given: Node.js runtime available / When: calling _getRawOSPlatform() / Then: function detects Node.js correctly
-- [ ] **T02-01-02** Given: Node.js running on Windows / When: checking detected platform / Then: returns 'win32'
-- [ ] **T02-01-03** Given: Node.js running on macOS / When: checking detected platform / Then: returns 'darwin'
-- [ ] **T02-01-04** Given: Node.js running on Linux / When: checking detected platform / Then: returns 'linux'
-- [ ] **T02-01-05** Given: Node.js with process.platform set / When: validating against standard values / Then: no unexpected platform values
-- [ ] **T02-01-06** Given: Node.js platform detection completed / When: running type check / Then: return value is _RawOSPlatformType
+- [x] **T02-01-01** Given: Node.js runtime available / When: calling _getRawOSPlatform() / Then: function detects Node.js correctly
+- [x] **T02-01-02** Given: Node.js running on Windows / When: checking detected platform / Then: returns 'win32'
+- [x] **T02-01-03** Given: Node.js running on macOS / When: checking detected platform / Then: returns 'darwin'
+- [x] **T02-01-04** Given: Node.js running on Linux / When: checking detected platform / Then: returns 'linux'
+- [x] **T02-01-05** Given: Node.js with process.platform set / When: validating against standard values / Then: no unexpected platform values
+- [x] **T02-01-06** Given: Node.js platform detection completed / When: running type check / Then: return value is _RawOSPlatformType
 
 ### T02-02: Deno Platform Detection (6 tasks)
 

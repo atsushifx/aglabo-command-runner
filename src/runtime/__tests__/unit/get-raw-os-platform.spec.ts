@@ -1,4 +1,5 @@
-// tests: src/runtime/__tests__/unit/get-raw-os-platform.spec.ts
+// Copyright (c) 2026 atsushifx <http://github.com/atsushifx>
+//// tests: src/runtime/__tests__/unit/get-raw-os-platform.spec.ts
 // @(#) : BDD unit tests for _getRawOSPlatform() function
 //
 // Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
