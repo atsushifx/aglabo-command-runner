@@ -9,7 +9,11 @@
   "extends": "./base/configs/tsconfig.base.json",
   "include": [
     "src/**/*.ts",
-    "shared/**/*.ts"
+    "shared/**/*.ts",
+    "tests/**/*.ts"
+  ],
+  "exclude": [
+    "tests/runtime/deno/**"
   ],
   "compilerOptions": {
     // directories
@@ -18,13 +22,13 @@
     "outDir": "./dist",
     // aliases
     "paths": {
-      "@shared/*": [
-        "shared/*"
-      ],
-      "@/*": [
+      "#/*": [
         "src/*"
       ],
-      "@runtime/*": [
+      "#shared/*": [
+        "shared/*"
+      ],
+      "#runtime/*": [
         "src/runtime/*"
       ]
     },

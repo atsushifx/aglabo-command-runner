@@ -13,7 +13,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 // types
-import type { OnResolveArgs, OnResolveResult, Plugin as EsbuildPlugin } from 'esbuild';
+import type { Plugin as EsbuildPlugin } from 'esbuild';
 import type { Options } from 'tsup';
 
 // plugins
@@ -55,8 +55,8 @@ export const baseConfig: Options = {
   // overwrite it if sub-packages is necessary
   // entry: [  ],
 
-  // 他の設定ファイルが自由に差し込めるよう空配列にしておく
+  // Keep as empty array so other configuration files can freely add plugins
   esbuildPlugins: [
-    // 後で configs/tsup.config.esm.ts 側から上書きする
+    // Will be overridden by configs/tsup.config.esm.ts
   ],
 };

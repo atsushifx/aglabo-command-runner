@@ -24,7 +24,6 @@ import baseConfig from '../base/configs/vitest.config.base.ts';
 
 // config
 export default mergeConfig(baseConfig, {
-  plugins: [tsconfigPaths()],
   test: {
     include: [
       // Functional Test - single feature complete behavior verification
