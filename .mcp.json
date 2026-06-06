@@ -22,12 +22,20 @@
       ],
       "env": {}
     },
-    "lsmcp": {
+    "codegraph-mcp": {
       "type": "stdio",
-      "command": "lsmcp",
+      "command": "codegraph",
       "args": [
-        "-p",
-        "typescript"
+        "serve",
+        "--mcp"
+      ]
+    },
+    "filesystem": {
+      "type": "stdio",
+      "command": "pnpx",
+      "args": [
+        "@modelcontextprotocol/server-filesystem",
+        "."
       ]
     }
   }
