@@ -54,13 +54,13 @@ const PLATFORM_PATTERN = /^(win32|darwin|linux)$/;
 /**
  * Type Guard: Check if value is a valid platform
  */
-const isValidPlatform = (value: unknown): value is _RawOSPlatformType =>
+const _isValidPlatform = (value: unknown): value is _RawOSPlatformType =>
   VALID_PLATFORMS.includes(value as _RawOSPlatformType);
 
 /**
  * Type Guard: Check if value is a valid platform result (including undefined)
  */
-const isValidPlatformResult = (value: unknown): value is _RawOSPlatformResult =>
+const _isValidPlatformResult = (value: unknown): value is _RawOSPlatformResult =>
   VALID_PLATFORM_RESULTS.includes(value as _RawOSPlatformResult);
 
 /**
@@ -207,7 +207,7 @@ describe('Bun Platform Detection - _getRawOSPlatform()', () => {
     ['T02-03-04', 'Linux'],
   ])(
     '[正常] %s: Given Bun running on %s, when checking detected platform, then returns appropriate value',
-    (taskId, platformName) => {
+    (_taskId, _platformName) => {
       // ============================================================================
       // Given: Bun runtime available and running on a system
       // ============================================================================
