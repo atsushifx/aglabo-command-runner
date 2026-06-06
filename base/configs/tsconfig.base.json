@@ -1,7 +1,7 @@
 // src: ./shared/configs/tsconfig.base.json
 // @(#) : base TypeScript configuration for all packages
 //
-// Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
+// Copyright (c) 2025- atsushifx <https://github.com/atsushifx>
 //
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
@@ -25,11 +25,11 @@
   // --- compile options
   // src: ./shared/configs/tsconfig.base.json
   "compilerOptions": {
-    // ✅ 厳格チェック
+    // ✅ 厳格ﾁ`ｪFｯbｸN
     "alwaysStrict": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    // ✅ ターゲットとモジュール解決
+    // ✅ ﾀ^ｰ[ｹﾞQｯbﾄgとﾓぞﾞWｭ・[ﾙ級
     "target": "ES2022",
     "module": "ES2022",
     "moduleResolution": "bundler",
@@ -40,7 +40,7 @@
     "emitDeclarationOnly": true,
     "allowImportingTsExtensions": true,
     "skipLibCheck": true,
-    // ✅ 宣言ファイル
+    // ✅ 宣言ﾌtｧ@ｲCﾙ
     "declaration": true,
     "declarationMap": true,
     // ✅ 出力
@@ -48,10 +48,10 @@
     "outDir": "./dist",
     "newLine": "LF",
     "composite": false,
-    // ✅ 増分ビルド
+    // ✅ 増分ﾋﾞrﾙ尭ﾞh
     // incremental build
     "incremental": true,
-    // ✅ ライブラリ
+    // ✅ ﾗ牡Cﾌﾞuﾗ華
     "lib": [
       "ESNext",
       "DOM"
