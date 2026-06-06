@@ -1,7 +1,7 @@
 // src: shared/common/configs/vitest.config.e2e.ts
 // @(#) : vitest config for end-to-end test
 //
-// Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
+// Copyright (c) 2025- atsushifx <https://github.com/atsushifx>
 //
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT

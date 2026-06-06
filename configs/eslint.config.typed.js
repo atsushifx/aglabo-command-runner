@@ -1,7 +1,7 @@
 // src: shared/common/configs/eslint.config.typed.js
 // @(#) : ESLint flat config for type check
 //
-// Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
+// Copyright (c) 2025- atsushifx <https://github.com/atsushifx>
 //
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
