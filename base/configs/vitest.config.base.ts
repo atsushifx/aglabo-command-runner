@@ -7,12 +7,10 @@
 // https://opensource.org/licenses/MIT
 
 // vitest
-import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
 
 // configs
 export default defineConfig({
-  plugins: [tsconfigPaths()],
   test: {
     globals: true,
     environment: 'node',
@@ -46,6 +44,7 @@ export default defineConfig({
     // coverage: moved to individual test configs to avoid conflicts
   },
   resolve: {
+    tsconfigPaths: true,
     // set on sub-packages configs
     alias: {},
   },
