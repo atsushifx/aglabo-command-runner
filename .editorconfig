@@ -1,10 +1,11 @@
 # src: .editorconfig
 # @(#) : editorconfig for aglabo-command-runner
 #
-# Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
+# Copyright (c) 2025- atsushifx <https://github.com/atsushifx>
 #
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
+
 
 root = true
 
@@ -22,6 +23,9 @@ tab_width = 2
 # ─────────────────────────────
 # Exclude directories/files
 # ─────────────────────────────
+[node_modules/*]
+ignore = true
+
 [.tools/*]
 ignore = true
 
