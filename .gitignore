@@ -1,10 +1,11 @@
 # src: .gitignore
 # @(#) : aglabo command runner ignore
 #
-# Copyright (c) 2026- atsushifx <http://github.com/atsushifx>
+# Copyright (c) 2025- atsushifx <http://github.com/atsushifx>
 #
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
+
 
 
 ##  General
@@ -17,10 +18,6 @@ thumbs.db
 *.diff
 *.patch
 
-# ignore release package
-releases/*
-!releases/.keep
-
 #   history, cache
 .history/
 .cache/
@@ -31,9 +28,9 @@ releases/*
 $~*
 ~*
 *~
-*tmp
-*swp
-*lock
+*.tmp
+*.swp
+*.lock
 
 # session files
 *session.json
@@ -45,11 +42,12 @@ $~*
 .env*
 .env.*
 
-
 # release
 releases/*
 !releases/.keep
 
+##  Git
+!**/.gitignore
 
 ## Development tools (installed locally)
 .tools/
@@ -62,20 +60,26 @@ releases/*
 
 ## Coding AI depended
 # SDD (Spec-Driven Development) files
-**/.cc-sdd/
 
 # claude code setting
 .claude/*
 
+# settings
+!.claude/**/settings.json
+
 # agents can tracking
+!**/CLAUDE*.md
 !.claude/agents/
 !.claude/agents/**
 !.claude/rules/
 !.claude/rules/**
+!.claude/commands/
+!.claude/commands/**
 
 # MCP server dependency files
 .cocoindex_code/
 .serena/
+.lsmcp/
 .codegraph/*
 
 ## Temporary directories are never tracked
