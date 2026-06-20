@@ -6,6 +6,8 @@
   // Enabled package managers
   "enabledManagers": [
     "github-actions",
-    "pnpm"
+    "pnpm",
+    "deno",
+    "bun"
   ]
 }
