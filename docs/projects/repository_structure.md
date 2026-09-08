@@ -317,9 +317,9 @@ These directories are not committed to git:
 
 When working with this repository, pay special attention to:
 
-1. **CLAUDE.md** - Main instructions
-2. **docs/*.md** - Detailed documentation
-3. **configs/** - Tool configurations
-4. **lefthook.yml** - Git hooks
-5. **package.json** - Available scripts
-6. **.mcp.json** - MCP server config
+1. CLAUDE.md: Main instructions
+2. docs/*.md: Detailed documentation
+3. configs/: Tool configurations
+4. lefthook.yml: Git hooks
+5. package.json: Available scripts
+6. .mcp.json: MCP server config

@@ -21,9 +21,37 @@ indent_size = 2
 tab_width = 2
 
 # ─────────────────────────────
-# Exclude directories/files
+# Shell Scripts
 # ─────────────────────────────
-[node_modules/*]
+[*.{sh,bash,zsh}]
+indent_style = space
+indent_size = 2
+tab_width = 2
+
+#  shell script formatter settings
+# --language-dialect
+shell_variant      = bash
+simplify           = true
+binary_next_line   = true
+# --case-indent
+switch_case_indent = true
+space_redirects    = true
+keep_padding       = true
+# --func-next-line
+function_next_line = true
+minify             = false  # don't minify
+
+# PowerShell
+[*.ps1]
+indent_style = space
+indent_size = 4
+tab_width = 4
+
+# ─────────────────────────────
+# shfmt Settings
+# ─────────────────────────────
+# Exclude from shfmt
+[**/node_modules/*]
 ignore = true
 
 [.tools/*]
@@ -38,33 +66,12 @@ ignore = true
 # ─────────────────────────────
 # Source Code Files
 # ─────────────────────────────
-
-# ─────────────────────────────
-# Shell Scripts
-# ─────────────────────────────
-[*.{sh,bash,zsh}]
+# TypeScript
+[*.{ts,tsx}]
 indent_style = space
 indent_size = 2
 tab_width = 2
 
-##  shell script foematter settings
-# --language-dialect
-shell_variant      = bash
-simplify           = true
-binary_next_line   = true
-# --case-indent
-switch_case_indent = true
-space_redirects    = true
-keep_padding       = true
-# --func-next-line
-function_next_line = true
-minify             = true
-
-# PowerShell
-[*.ps1]
-indent_style = space
-indent_size = 4
-tab_width = 4
 
 # ─────────────────────────────
 # Documents
