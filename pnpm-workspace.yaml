@@ -1,3 +1,8 @@
+# tsup が esbuild ^0.27.0 を固定しているため 0.28 系に寄せる (Dependabot #28)
+# tsup が esbuild の許容範囲を ^0.27 より先へ広げたらこの override は削除する
+overrides:
+  esbuild: ^0.28.2
+
 allowBuilds:
-  esbuild: set this to true or false
-  unrs-resolver: set this to true or false
+  esbuild: false
+  unrs-resolver: false

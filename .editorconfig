@@ -41,8 +41,12 @@ keep_padding       = true
 function_next_line = true
 minify             = false  # don't minify
 
-# PowerShell
-[*.ps1]
+
+# ─────────────────────────────
+# Source Code Files
+# ─────────────────────────────
+# TypeScript
+[*.{ts,tsx}]
 indent_style = space
 indent_size = 4
 tab_width = 4
