@@ -1,6 +1,7 @@
 # 📦 OSS Project Starter Template
 
-This template is designed to help you quickly launch a modern open source project with best practices and essential tools pre-configured.
+This template is designed to help you quickly launch a modern open source project
+with best practices and essential tools pre-configured.
 
 ---
 
