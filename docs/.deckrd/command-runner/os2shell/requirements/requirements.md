@@ -18,7 +18,7 @@ The `os2shell` module addresses the need to abstract and manage OS-specific shel
 
 ### Functional Requirements
 
-1. **Virtual OS Platform Abstraction**
+1. Virtual OS Platform Abstraction
    - Define a **virtual OS platform enumeration** that is independent of any specific runtime (Node.js, Deno, etc.)
    - Do NOT directly use runtime-specific platform values (e.g., `process.platform` from Node.js, `Deno.build.os`)
    - Map runtime platform values to virtual OS platform values at the boundary
@@ -28,21 +28,21 @@ The `os2shell` module addresses the need to abstract and manage OS-specific shel
      - `macOS` - macOS (formerly Darwin)
      - `Linux` - Linux operating system
    - Mapping is unidirectional: runtime platform → virtual OS platform (never the reverse)
-   - **Rationale:** This abstraction decouples the module from runtime-specific platform naming and makes it compatible with future runtimes without code changes
+   - Rationale: This abstraction decouples the module from runtime-specific platform naming and makes it compatible with future runtimes without code changes
 
-2. **Virtual OS → Shell Mapping Table**
+2. Virtual OS → Shell Mapping Table
    - Maintain a mapping from virtual OS platform to a primary shell command
    - The concrete shell selection is defined in the specification
    - Support extending the mapping with additional shells per OS in future versions (but only primary shell is required initially)
    - Define this mapping as an enumeration or constant mapping object in code
 
-3. **OS Detection**
+3. OS Detection
    - Detect the current operating system at runtime
    - Normalize runtime-specific platform detection (e.g., `process.platform`) to virtual OS platform
    - Handle OS detection across Node.js and other runtime environments
    - Return the detected virtual OS platform, not the raw runtime platform value
 
-4. **Shell Resolution**
+4. Shell Resolution
    - Export a function to retrieve the shell for the current OS
    - Function operates on the virtual OS platform level (not raw runtime values)
    - If the operating system is detected and supported, return the shell path/command as a string
@@ -53,16 +53,16 @@ The `os2shell` module addresses the need to abstract and manage OS-specific shel
 
 ### Non-Functional Requirements
 
-1. **Reliability**
+1. Reliability
    - Consistent behavior across different OS versions
    - Explicit, deterministic behavior: return `undefined` for unknown or unsupported operating systems (no implicit fallback)
    - Prevent silent failures by making undefined results visible to callers
 
-2. **Maintainability**
+2. Maintainability
    - Code should be clear and easy to extend with new OS/shell combinations
    - Centralized mapping to avoid duplication
 
-3. **Performance**
+3. Performance
    - Minimal overhead for shell detection
    - Cache OS detection results if needed
 

@@ -336,17 +336,17 @@ AG_OS_TO_SHELL_MAP[AGTOSType.macOS]
 
 ### 5.0.2 Key Design Points
 
-1. **Stage 1 - Raw OS Detection:**
+1. Stage 1 - Raw OS Detection:
    - Internal utility `_getRawOSPlatform()` abstracts runtime differences (Node/Deno/Bun)
    - All runtimes return consistent raw values: 'win32', 'darwin', 'linux'
    - Returns `undefined` for unsupported platforms
 
-2. **Stage 2 - Internal Conversion:**
+2. Stage 2 - Internal Conversion:
    - Private mapping table `_RAW_OS_TO_VIRTUAL_OS_MAP` converts raw to virtual OS
    - Type: `Record<_RawOSPlatformType, AGTOSType>`
    - Not exposed to public API; used internally only
 
-3. **Stage 3 - Public Shell Resolution:**
+3. Stage 3 - Public Shell Resolution:
    - Public constant `AG_OS_TO_SHELL_MAP` defines the primary shell for each virtual OS
    - Type: `Record<AGTOSType, AGTShellType>`
    - Public API; users can import and reference directly
