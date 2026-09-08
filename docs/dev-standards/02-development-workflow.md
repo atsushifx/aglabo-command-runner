@@ -201,11 +201,11 @@ If commitlint rejects message:
 
 ## Best Practices
 
-1. **Small commits**: One logical change per commit
-2. **Auto-generated messages**: Always use the automated system
-3. **Security first**: Never commit secrets
-4. **Quality checks**: Run before committing
-5. **Frequent commits**: Commit often, push regularly
+1. Small commits: One logical change per commit
+2. Auto-generated messages: Always use the automated system
+3. Security first: Never commit secrets
+4. Quality checks: Run before committing
+5. Frequent commits: Commit often, push regularly
 
 ## AI-Assisted Development
 
