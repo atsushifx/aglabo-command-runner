@@ -86,21 +86,21 @@ Enforces:
 
 ## Hook Execution Flow
 
-1. **Stage changes**: `git add <files>`
-2. **Start commit**: `git commit`
-3. **Pre-commit runs** (parallel):
+1. Stage changes: `git add <files>`
+2. Start commit: `git commit`
+3. Pre-commit runs (parallel):
    - gitleaks scans staged files
    - secretlint analyzes content
    - If either fails, commit is blocked
-4. **Prepare-commit-msg runs**:
+4. Prepare-commit-msg runs:
    - Generates commit message
    - Populates editor buffer
-5. **Edit message** (optional)
-6. **Save and close editor**
-7. **Commit-msg runs**:
+5. Edit message (optional)
+6. Save and close editor
+7. Commit-msg runs:
    - Validates message format
    - If invalid, commit is blocked
-8. **Commit completes** (if all hooks pass)
+8. Commit completes (if all hooks pass)
 
 ## Manual Hook Execution
 
@@ -171,9 +171,9 @@ They do NOT scan:
 
 ## Security Best Practices
 
-1. **Always run hooks**: Never use `--no-verify`
-2. **Review scan results**: Understand why a secret was detected
-3. **Rotate exposed secrets**: If a secret was committed, rotate it immediately
-4. **Use environment variables**: Never hardcode secrets
-5. **Use .env files**: Store local secrets in `.env` (gitignored)
-6. **Manual verification**: Run `pnpm lint:secrets` before committing
+1. Always run hooks: Never use `--no-verify`
+2. Review scan results: Understand why a secret was detected
+3. Rotate exposed secrets: If a secret was committed, rotate it immediately
+4. Use environment variables: Never hardcode secrets
+5. Use .env files: Store local secrets in `.env` (gitignored)
+6. Manual verification: Run `pnpm lint:secrets` before committing

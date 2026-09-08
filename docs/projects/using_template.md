@@ -224,7 +224,7 @@ pnpm test:watch
 
 ```bash
 # Clean previous build
-pnpm clean
+pnpm build:clean
 
 # Build
 pnpm build
@@ -261,7 +261,7 @@ pnpm version patch  # or minor, major
 
 ```bash
 # Clean and build
-pnpm clean
+pnpm build:clean
 pnpm build
 ```
 

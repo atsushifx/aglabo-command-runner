@@ -12,15 +12,15 @@ Tools are **not bundled** with the repository. Install using automated scripts o
 
 Installs:
 
-- **lefthook** - Git hook manager
-- **dprint** - Code formatter
-- **gitleaks** - Secret detection
-- **dotenvx** - Environment variable manager
-- **commitlint** - Commit message linting
-- **@commitlint/cli** - Commitlint CLI
-- **@commitlint/config-conventional** - Conventional Commits config
-- **secretlint** - Secret static analysis
-- **cspell** - Spell checker
+- lefthook - Git hook manager
+- dprint - Code formatter
+- gitleaks - Secret detection
+- dotenvx - Environment variable manager
+- commitlint - Commit message linting
+- @commitlint/cli - Commitlint CLI
+- @commitlint/config-conventional - Conventional Commits config
+- secretlint - Secret static analysis
+- cspell - Spell checker
 
 ### Install Documentation Tools
 
@@ -30,10 +30,10 @@ Installs:
 
 Installs:
 
-- **textlint** - Text linting
-- **textlint-rule-preset-ja-technical-writing** - Japanese technical writing rules
-- **markdownlint-cli2** - Markdown linting
-- **cspell** - Spell checker
+- textlint - Text linting
+- textlint-rule-preset-ja-technical-writing - Japanese technical writing rules
+- markdownlint-cli2 - Markdown linting
+- cspell - Spell checker
 
 ### Script Structure
 
