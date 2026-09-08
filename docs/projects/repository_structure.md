@@ -190,10 +190,10 @@ Complete directory structure for this template project.
 
 **Contents**:
 
-- **PowerShell scripts** (.ps1) - Windows tool installers
-- **Bash scripts** (.sh) - Git hook scripts
-- **common/** - Shared PowerShell functions
-- **libs/** - PowerShell libraries
+- PowerShell scripts (.ps1) - Windows tool installers
+- Bash scripts (.sh) - Git hook scripts
+- common/ - Shared PowerShell functions
+- libs/ - PowerShell libraries
 
 ### shared/
 

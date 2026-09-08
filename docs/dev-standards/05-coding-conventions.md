@@ -4,9 +4,9 @@ Code style standards for this project.
 
 ## General Principles
 
-1. **Use tools, not rules**: Automated formatters and linters enforce style
-2. **Consistency over personal preference**: Follow project standards
-3. **Readability first**: Code is read more often than written
+1. Use tools, not rules: Automated formatters and linters enforce style
+2. Consistency over personal preference: Follow project standards
+3. Readability first: Code is read more often than written
 
 ## File Organization
 
@@ -283,12 +283,12 @@ export default mergeConfig(baseConfig, {
 
 ## Best Practices
 
-1. **Let tools enforce style**: Use dprint, ESLint, not manual reviews
-2. **Write self-documenting code**: Clear names over comments
-3. **Keep functions small**: Single responsibility
-4. **Avoid premature optimization**: Clarity first, optimize if needed
-5. **Use TypeScript features**: Leverage type system
-6. **Test public APIs**: All exported functions/classes
+1. Let tools enforce style: Use dprint, ESLint, not manual reviews
+2. Write self-documenting code: Clear names over comments
+3. Keep functions small: Single responsibility
+4. Avoid premature optimization: Clarity first, optimize if needed
+5. Use TypeScript features: Leverage type system
+6. Test public APIs: All exported functions/classes
 
 ## Anti-Patterns
 

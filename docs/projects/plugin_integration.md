@@ -240,10 +240,10 @@ Scripts in `scripts/` could leverage plugin libraries:
 
 ## Best Practices
 
-1. **Don't commit plugin files**: Plugin is user-specific, not repository-specific
-2. **Document library usage**: If scripts use plugin libraries, document it
-3. **Handle missing plugin gracefully**: Scripts should fail gracefully if plugin not installed
-4. **Version compatibility**: Be aware of plugin version dependencies
+1. Don't commit plugin files: Plugin is user-specific, not repository-specific
+2. Document library usage: If scripts use plugin libraries, document it
+3. Handle missing plugin gracefully: Scripts should fail gracefully if plugin not installed
+4. Version compatibility: Be aware of plugin version dependencies
 
 ## Example: Using Plugin Library
 

@@ -91,7 +91,7 @@ pnpm test:develop      # ユニットテスト
 pnpm test:functional   # 関数テスト
 
 # ビルド
-pnpm clean && pnpm exec tsup --config ./configs/tsup.config.esm.ts
+pnpm build:clean && pnpm exec tsup --config ./configs/tsup.config.esm.ts
 ```
 
 ### Implementation Guidelines

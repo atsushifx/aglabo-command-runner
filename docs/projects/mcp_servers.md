@@ -208,15 +208,15 @@ mcp__lsmcp__read_memory({
 
 ## Best Practices
 
-1. Check memories first: Review serena-mcp memories before asking about project structure or conventions.
+1. Check memories first: Review serena-mcp memories before asking about project structure.
 
-2. **Use symbolic tools**: Prefer symbolic tools (serena-mcp, lsmcp) over reading entire files.
+2. Use symbolic tools: Prefer symbolic tools (serena-mcp, lsmcp) over reading entire files.
 
-3. **LSP for navigation**: Use lsmcp for type-aware navigation and refactoring.
+3. LSP for navigation: Use lsmcp for type-aware navigation and refactoring.
 
-4. **serena-mcp for search**: Use serena-mcp for broad symbol search and overview.
+4. serena-mcp for search: Use serena-mcp for broad symbol search and overview.
 
-5. **Update memories**: Keep project memories current as the codebase evolves.
+5. Update memories: Keep project memories current as the codebase evolves.
 
 ## Configuration
 

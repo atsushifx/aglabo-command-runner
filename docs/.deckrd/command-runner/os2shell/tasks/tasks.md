@@ -15,10 +15,10 @@ task_count: 568
 
 **Task list** organized into 8 sections with clear task IDs in the format `T<Section(2-digit)>-<Subsection(2-digit)>-<TestCase(2-digit)>`.
 
-- **Sections:** 01-08 (8 main feature areas)
-- **Section 01:** 52 tasks - 3 tasks for file/structure-only, 5 tasks for value-bearing items (正常系/異常系/エッジケース + type check)
-- **Sections 02-08:** Summary format (implementation details as needed)
-- **Coverage:** Implementation / Value Correctness (Normal/Invalid/Edge Cases) / Type Correctness / Export & Structure
+- Sections: 01-08 (8 main feature areas)
+- Section 01: 52 tasks - 3 tasks for file/structure-only, 5 tasks for value-bearing items (正常系/異常系/エッジケース + type check)
+- Sections 02-08: Summary format (implementation details as needed)
+- Coverage: Implementation / Value Correctness (Normal/Invalid/Edge Cases) / Type Correctness / Export & Structure
 
 ---
 
@@ -610,9 +610,9 @@ Each task follows the pattern:
 
 **Categories per subsection:**
 
-1. **正常系 (Normal Cases)** - Expected behavior with valid inputs
-2. **異常系 (Error Cases)** - Error conditions and invalid inputs
-3. **エッジケース (Edge Cases)** - Boundary conditions and special scenarios
+1. 正常系 (Normal Cases) - Expected behavior with valid inputs
+2. 異常系 (Error Cases) - Error conditions and invalid inputs
+3. エッジケース (Edge Cases) - Boundary conditions and special scenarios
 
 ## Implementation Progress
 
@@ -646,19 +646,19 @@ For detailed task management format guidelines, refer to `/tasks` skill at `.cla
 
 ## Document Metadata
 
-- **File:** `docs/.deckrd/command-runner/os2shell/tasks/tasks.md`
-- **Section 01 Tasks:** 52 (3 for structural items, 5 for value-bearing items)
-- **Task Distribution:**
+- File: `docs/.deckrd/command-runner/os2shell/tasks/tasks.md`
+- Section 01 Tasks: 52 (3 for structural items, 5 for value-bearing items)
+- Task Distribution:
   - File/Structure only (3 tasks): T01-03, T01-07, T01-08, T01-12
   - Value-bearing items (5 tasks): T01-01, T01-02, T01-04, T01-05, T01-06, T01-09, T01-10, T01-11
-- **Format:** Markdown with Checkbox Tracking
-- **Task ID Format:** T<2-digit section>-<2-digit subsection>-<2-digit test case>
-- **Created:** 2025-12-31
-- **Last Updated:** 2025-12-31
-- **Status:** Section 01 Complete (52 actionable tasks with full value coverage), Sections 02-08 Summary
-- **Based on:** Deckrd Workflow - os2shell Implementation Plan v1.1
-- **Test Coverage:** 正常系 (Normal Cases) / 異常系 (Invalid Cases) / エッジケース (Edge Cases) / Type & Export Verification
-- **Linked Documentation:**
+- Format: Markdown with Checkbox Tracking
+- Task ID Format: T<2-digit section>-<2-digit subsection>-<2-digit test case>
+- Created: 2025-12-31
+- Last Updated: 2025-12-31
+- Status: Section 01 Complete (52 actionable tasks with full value coverage), Sections 02-08 Summary
+- Based on: Deckrd Workflow - os2shell Implementation Plan v1.1
+- Test Coverage: 正常系 (Normal Cases) / 異常系 (Invalid Cases) / エッジケース (Edge Cases) / Type & Export Verification
+- Linked Documentation:
   - Implementation spec: `implementation.md`
   - Specifications: `specifications.md`
   - Requirements: `requirements.md`

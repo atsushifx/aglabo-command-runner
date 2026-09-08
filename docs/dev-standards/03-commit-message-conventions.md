@@ -25,30 +25,30 @@ type(scope): summary
 
 ### Primary Types
 
-- **feat** - New feature
-- **fix** - Bug fix
-- **docs** - Documentation only
-- **chore** - Routine task, maintenance
-- **test** - Adding or updating tests
-- **refactor** - Code change without fixing bugs or adding features
+- feat - New feature
+- fix - Bug fix
+- docs - Documentation only
+- chore - Routine task, maintenance
+- test - Adding or updating tests
+- refactor - Code change without fixing bugs or adding features
 
 ### Additional Types
 
-- **perf** - Performance improvement
-- **ci** - CI/CD related changes
-- **config** - Configuration changes
-- **release** - Release-related commits
-- **merge** - Merge commits
-- **build** - Build system or external dependencies
-- **style** - Non-functional code style changes
-- **deps** - Dependency updates
+- perf - Performance improvement
+- ci - CI/CD related changes
+- config - Configuration changes
+- release - Release-related commits
+- merge - Merge commits
+- build - Build system or external dependencies
+- style - Non-functional code style changes
+- deps - Dependency updates
 
 ## Scope Guidelines
 
-- **config** - Configuration files (`configs/`, `*.yaml`, `*.json`)
-- **scripts** - Scripts (`scripts/`, `*.sh`, `*.ps1`)
-- **docs** - Documentation (`docs/`, `*.md`)
-- **test** - Test files (`__tests__/`, `*.spec.ts`, `*.test.ts`)
+- config - Configuration files (`configs/`, `*.yaml`, `*.json`)
+- scripts - Scripts (`scripts/`, `*.sh`, `*.ps1`)
+- docs - Documentation (`docs/`, `*.md`)
+- test - Test files (`__tests__/`, `*.spec.ts`, `*.test.ts`)
 
 ## Examples
 

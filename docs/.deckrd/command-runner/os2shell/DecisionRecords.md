@@ -451,10 +451,10 @@ Implement in this order:
 
 ### Alternatives Considered
 
-1. **Keep all types in `runtime.types.ts`** - Rejected: Creates semantic coupling and obscures module boundaries
-2. **Create one file per type** - Rejected: Over-engineering; lacks logical grouping
-3. **Merge command-result and os2shell types** - Rejected: Different reusability scopes (shared vs. module-specific)
-4. **Create types directly in implementation files** - Rejected: Violates separation of concerns; makes testing harder
+1. Keep all types in `runtime.types.ts` - Rejected: Creates semantic coupling and obscures module boundaries
+2. Create one file per type - Rejected: Over-engineering; lacks logical grouping
+3. Merge command-result and os2shell types - Rejected: Different reusability scopes (shared vs. module-specific)
+4. Create types directly in implementation files - Rejected: Violates separation of concerns; makes testing harder
 
 ### Implementation Checklist
 
